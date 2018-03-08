@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.github.bubinimara.movies.R;
-import com.github.bubinimara.movies.fragment.HomeFragment;
+import com.github.bubinimara.movies.fragment.home.HomeFragment;
 import com.github.bubinimara.movies.fragment.SearchFragment;
 
 import butterknife.BindView;
