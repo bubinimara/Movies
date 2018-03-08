@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void showHomeScreen() {
+        //TODO: check if already displayed
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content,getHomeFragment())
                 .commit();
@@ -58,16 +58,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void showSearchScreen(){
+        //TODO: check if already displayed
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content,getSearchFragment())
                 .commit();
     }
 
     private Fragment getSearchFragment() {
+        //TODO: don't recreate
         return SearchFragment.newInstance();
     }
 
     private Fragment getHomeFragment() {
+        //TODO: don't recreate
         return HomeFragment.newInstance();
     }
 
