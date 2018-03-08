@@ -82,7 +82,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
     }
 
     public void addMovies(@NonNull Collection<MovieModel> movies, int page){
+        // TODO: notify range and sync list
         this.movies.addAll(movies);
+        notifyDataSetChanged();
     }
 
 

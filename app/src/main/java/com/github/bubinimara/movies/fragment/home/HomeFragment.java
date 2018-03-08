@@ -16,6 +16,7 @@ import com.github.bubinimara.movies.adapter.MovieAdapter;
 import com.github.bubinimara.movies.model.MovieModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,14 +25,14 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeView {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     private MovieAdapter adapter;
     private Unbinder unbinder;
-
+    private HomePresenter presenter;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -45,20 +46,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new HomePresenter();
         adapter = new MovieAdapter();
         adapter.setOnItemClicked(this::onRowItemCliced);
         adapter.setOnLoadMore(this::onLoadMoreItem);
-        adapter.addMovies(getMockMovie(),0);
-    }
 
-    private ArrayList<MovieModel> getMockMovie() {
-        ArrayList<MovieModel> result = new ArrayList<>();
-        for (int i = 0; i < 33; i++) {
-            MovieModel movi = new MovieModel();
-            movi.setTitle("Movie title "+i);
-            result.add(movi);
-        }
-        return result;
     }
 
     private void onLoadMoreItem(int currentPage) {
@@ -85,6 +77,18 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.bindView(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unbind();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         try {
@@ -94,5 +98,10 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void showMovies(Collection<MovieModel> movies, int page){
+        adapter.addMovies(movies,page);
     }
 }
