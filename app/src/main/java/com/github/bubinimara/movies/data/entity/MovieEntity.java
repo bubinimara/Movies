@@ -10,6 +10,10 @@ public class MovieEntity {
     public MovieEntity() {
     }
 
+    public MovieEntity(String title) {
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }

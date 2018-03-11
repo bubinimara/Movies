@@ -34,7 +34,7 @@ public class HomePresenter implements IPresenter<HomeView> {
         this.bgScehduler = bgScehduler;
         this.uiScheduler = uiScheduler;
 
-        currentPageNumber = 0;
+        currentPageNumber = 1;
         statePublishSubject = PublishSubject.create();
     }
 

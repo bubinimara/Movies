@@ -36,7 +36,7 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
     public SearchPresenter(Repository repository, Scheduler bgScehduler, Scheduler uiScheduler) {
         this.repository = repository;
-        currentPageNumber = 0;
+        currentPageNumber = 1;
         currentSearchTerm = "";
         statePublishSubject = PublishSubject.create();
         this.bgScehduler =  bgScehduler;
@@ -57,7 +57,7 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
     private void initialize() {
         observForPageChange();
-        statePublishSubject.onNext(new State(currentSearchTerm,currentPageNumber));
+        //statePublishSubject.onNext(new State(currentSearchTerm,currentPageNumber));
     }
 
 
@@ -98,8 +98,12 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
     public void onSearch(String s) {
         this.searchView.showEmptyMovies();
-
+        currentPageNumber=1;
         currentSearchTerm = s;
+        if(currentSearchTerm.isEmpty()){
+            return;
+        }
+
         statePublishSubject.onNext(new SearchPresenter.State(currentSearchTerm,currentPageNumber));
     }
 
