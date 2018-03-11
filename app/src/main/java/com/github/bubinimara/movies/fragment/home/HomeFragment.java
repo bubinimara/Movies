@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     private void onLoadMoreItem(int currentPage) {
         Toast.makeText(getContext(),"onLoadMore",Toast.LENGTH_SHORT).show();
+        presenter.onLoadMore(currentPage);
     }
 
     private void onRowItemCliced(MovieModel movieModel) {
