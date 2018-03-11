@@ -108,4 +108,9 @@ public class HomeFragment extends Fragment implements HomeView {
     public void showMovies(Collection<MovieModel> movies, int page){
         adapter.addMovies(movies,page);
     }
+
+    @Override
+    public void showError(int type) {
+        Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
+    }
 }

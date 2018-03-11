@@ -2,7 +2,6 @@ package com.github.bubinimara.movies.fragment.search;
 
 import com.github.bubinimara.movies.IPresenter;
 import com.github.bubinimara.movies.data.Repository;
-import com.github.bubinimara.movies.data.entity.MovieEntity;
 import com.github.bubinimara.movies.model.MovieModel;
 import com.github.bubinimara.movies.model.mapper.MovieModelMapper;
 
@@ -70,7 +69,11 @@ public class SearchPresenter implements IPresenter<SearchView> {
                         .subscribeOn(bgScehduler)
                         .observeOn(uiScheduler))
                 .map(MovieModelMapper::transform)
-                .subscribe(this::onSuccess);
+                .subscribe(this::onSuccess,this::onError);
+    }
+
+    private void onError(Throwable throwable) {
+        searchView.showError(SearchView.Errors.UNKNOWN);
     }
 
     private void cancelCurrentSearchMovieTask(Disposable disposable) {

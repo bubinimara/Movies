@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.bubinimara.movies.MovieApp;
 import com.github.bubinimara.movies.R;
@@ -87,6 +88,7 @@ public class SearchFragment extends Fragment implements SearchView{
     public void onSeachTextChange(CharSequence search){
         presenter.onSearch(search.toString());
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -102,5 +104,11 @@ public class SearchFragment extends Fragment implements SearchView{
     @Override
     public void showMovies(List<MovieModel> movieModels, int currentPageNumber) {
         adapter.addMovies(movieModels,currentPageNumber);
+    }
+
+    @Override
+    public void showError(int error) {
+        // get string from error type
+        Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
     }
 }

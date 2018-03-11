@@ -10,5 +10,9 @@ import java.util.Collection;
  */
 
 public interface HomeView extends IView {
+    @interface Errors{
+        int UNKNOWN = 0;
+    }
     void showMovies(Collection<MovieModel> movies, int page);
+    void showError(@Errors int type);
 }

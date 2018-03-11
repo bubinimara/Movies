@@ -63,8 +63,9 @@ public class HomePresenter implements IPresenter<HomeView> {
                         .observeOn(uiScheduler)
                     )
                 .map(MovieModelMapper::transform)
-                .subscribe(this::onSuccess);
+                .subscribe(this::onSuccess,this::onError);
     }
+
 
     private void clear() {
         if(disposable!=null && !disposable.isDisposed()){
@@ -76,6 +77,9 @@ public class HomePresenter implements IPresenter<HomeView> {
         this.homeView.showMovies(movieModels,currentPageNumber);
     }
 
+    private void onError(Throwable throwable) {
+        homeView.showError(HomeView.Errors.UNKNOWN);
+    }
 
     public void onLoadMore(int currentPage){
         currentPageNumber++;

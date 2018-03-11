@@ -10,7 +10,12 @@ import java.util.List;
  */
 
 public interface SearchView extends IView {
-    void showMovies(List<MovieModel> movieModels, int currentPageNumber);
+    @interface Errors {
 
+        int UNKNOWN = 0;
+    }
+    void showMovies(List<MovieModel> movieModels, int currentPageNumber);
     void showEmptyMovies();
+
+    void showError(@Errors int error);
 }
