@@ -8,6 +8,7 @@ public class MovieModel {
     private String title;
     private String year;
     private String overview;
+    private String imageUrl;
 
     public MovieModel() {
     }
@@ -34,5 +35,13 @@ public class MovieModel {
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

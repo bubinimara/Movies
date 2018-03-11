@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.model.MovieModel;
 
@@ -95,6 +97,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
 
         @BindView(R.id.movie_title)
         TextView title;
+        @BindView(R.id.movie_overview)
+        TextView overview;
+        @BindView(R.id.movie_year)
+        TextView year;
+        @BindView(R.id.movie_image)
+        ImageView image;
+
         private MovieModel movie;
 
         private final OnItemClicked onItemClicked;
@@ -118,6 +127,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
 
         private void render() {
             title.setText(movie.getTitle());
+            overview.setText(movie.getOverview());
+            year.setText(movie.getYear());
+
+            Glide.with(itemView.getContext())
+                    .load(movie.getImageUrl())
+                    .into(image);
         }
     }
 }
