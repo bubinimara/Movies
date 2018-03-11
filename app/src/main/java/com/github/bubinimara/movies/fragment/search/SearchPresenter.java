@@ -1,7 +1,10 @@
 package com.github.bubinimara.movies.fragment.search;
 
 import com.github.bubinimara.movies.IPresenter;
+import com.github.bubinimara.movies.data.Repository;
+import com.github.bubinimara.movies.data.entity.MovieEntity;
 import com.github.bubinimara.movies.model.MovieModel;
+import com.github.bubinimara.movies.model.mapper.MovieModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +24,8 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
     private final Scheduler uiScheduler;
     private final Scheduler bgScehduler;
+    private final Repository repository;
     private SearchView searchView;
-    private MockRepo mockRepo;
 
     private int currentPageNumber;
     private String currentSearchTerm;
@@ -31,8 +34,8 @@ public class SearchPresenter implements IPresenter<SearchView> {
     private Disposable currentSearchDisposable;
     private PublishSubject<State> statePublishSubject;
 
-    public SearchPresenter(Scheduler bgScehduler, Scheduler uiScheduler) {
-        mockRepo = new MockRepo();
+    public SearchPresenter(Repository repository, Scheduler bgScehduler, Scheduler uiScheduler) {
+        this.repository = repository;
         currentPageNumber = 0;
         currentSearchTerm = "";
         statePublishSubject = PublishSubject.create();
@@ -62,10 +65,11 @@ public class SearchPresenter implements IPresenter<SearchView> {
     private void observForPageChange(){
         //TODO: check cancel
         disposable = statePublishSubject
-                .flatMap(state -> mockRepo.searchMovie(state.search,state.page)
+                .flatMap(state -> repository.searchMovie(state.search,state.page)
                         .doOnSubscribe(this::cancelCurrentSearchMovieTask)
                         .subscribeOn(bgScehduler)
                         .observeOn(uiScheduler))
+                .map(MovieModelMapper::transform)
                 .subscribe(this::onSuccess);
     }
 

@@ -1,7 +1,9 @@
 package com.github.bubinimara.movies.fragment.home;
 
 import com.github.bubinimara.movies.IPresenter;
+import com.github.bubinimara.movies.data.Repository;
 import com.github.bubinimara.movies.model.MovieModel;
+import com.github.bubinimara.movies.model.mapper.MovieModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +20,20 @@ import io.reactivex.subjects.PublishSubject;
 public class HomePresenter implements IPresenter<HomeView> {
     private final Scheduler uiScheduler;
     private final Scheduler bgScehduler;
+    private final Repository repository;
 
     private HomeView homeView;
-    private MockRepo mockRepo;
 
     private int currentPageNumber;
     private Disposable disposable;
 
     private PublishSubject<Integer> statePublishSubject;
 
-    public HomePresenter(Scheduler bgScehduler, Scheduler uiScheduler) {
+    public HomePresenter(Repository repository, Scheduler bgScehduler, Scheduler uiScheduler) {
+        this.repository = repository;
         this.bgScehduler = bgScehduler;
         this.uiScheduler = uiScheduler;
-        mockRepo = new MockRepo();
+
         currentPageNumber = 0;
         statePublishSubject = PublishSubject.create();
     }
@@ -54,11 +57,12 @@ public class HomePresenter implements IPresenter<HomeView> {
 
     private void observForPageChange(){
         disposable = statePublishSubject
-                .flatMap(m -> mockRepo
-                        .getMostPopularMovie(m)
+                .flatMap(m -> repository
+                        .getMostPopularMovies(m)
                         .subscribeOn(bgScehduler)
                         .observeOn(uiScheduler)
                     )
+                .map(MovieModelMapper::transform)
                 .subscribe(this::onSuccess);
     }
 

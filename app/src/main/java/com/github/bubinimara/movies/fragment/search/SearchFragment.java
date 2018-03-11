@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.bubinimara.movies.MovieApp;
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.adapter.MovieAdapter;
 import com.github.bubinimara.movies.model.MovieModel;
@@ -47,7 +48,8 @@ public class SearchFragment extends Fragment implements SearchView{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SearchPresenter(Schedulers.newThread(), AndroidSchedulers.mainThread());
+        MovieApp app = (MovieApp) getActivity().getApplication();
+        presenter = new SearchPresenter(app.getRepository(), Schedulers.newThread(), AndroidSchedulers.mainThread());
     }
 
     @Override

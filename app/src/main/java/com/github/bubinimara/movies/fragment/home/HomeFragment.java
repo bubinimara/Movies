@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.bubinimara.movies.MovieApp;
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.adapter.MovieAdapter;
 import com.github.bubinimara.movies.model.MovieModel;
@@ -47,7 +48,8 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter(Schedulers.newThread(), AndroidSchedulers.mainThread());
+        MovieApp app = (MovieApp) getActivity().getApplication();
+        presenter = new HomePresenter(app.getRepository(), Schedulers.newThread(), AndroidSchedulers.mainThread());
         adapter = new MovieAdapter();
         adapter.setOnItemClicked(this::onRowItemCliced);
         adapter.setOnLoadMore(this::onLoadMoreItem);
