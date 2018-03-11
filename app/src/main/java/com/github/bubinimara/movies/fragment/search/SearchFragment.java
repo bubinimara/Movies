@@ -64,11 +64,24 @@ public class SearchFragment extends Fragment implements SearchView{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        presenter.bindView(this);
+
         adapter = new MovieAdapter();
         adapter.setOnLoadMore(this::onLoadMore);
         adapter.setOnItemClicked(this::onItemClicked);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.unbind();
+        try {
+            unbinder.unbind();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onItemClicked(MovieModel movieModel) {
@@ -92,13 +105,12 @@ public class SearchFragment extends Fragment implements SearchView{
     @Override
     public void onResume() {
         super.onResume();
-        presenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        presenter.unbind();
+
     }
 
     @Override
@@ -111,4 +123,6 @@ public class SearchFragment extends Fragment implements SearchView{
         // get string from error type
         Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
     }
+
+
 }

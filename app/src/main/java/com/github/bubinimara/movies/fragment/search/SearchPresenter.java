@@ -100,9 +100,9 @@ public class SearchPresenter implements IPresenter<SearchView> {
     }
 
     public void onSearch(String s) {
-        this.searchView.showEmptyMovies();
         currentPageNumber=1;
         currentSearchTerm = s;
+        searchView.showEmptyMovies();
         if(currentSearchTerm.isEmpty()){
             return;
         }

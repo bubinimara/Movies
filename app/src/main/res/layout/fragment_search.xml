@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <EditText
+            android:maxLines="1"
             android:hint="@string/hint_search"
             android:id="@+id/search_text"
             android:layout_width="match_parent"
