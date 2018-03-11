@@ -28,8 +28,19 @@ public class MovieModelMapper {
         MovieModel movieModel = new MovieModel();
         movieModel.setTitle(movieEntities.getTitle());
         movieModel.setOverview(movieEntities.getOverview());
-        movieModel.setYear(movieEntities.getRelease_date());
+        movieModel.setYear(getFormattedDate(movieEntities.getRelease_date()));
         movieModel.setImageUrl(BASE_URL_IMAGE+movieEntities.getPoster_path());
         return movieModel;
+    }
+
+    private static String getFormattedDate(String release_date) {
+        if(release_date.isEmpty()){
+            return release_date;
+        }
+        int indexOf = release_date.indexOf('-');
+        if(indexOf <0 || indexOf > release_date.length()){
+            return release_date;
+        }
+        return release_date.substring(0, indexOf);
     }
 }
