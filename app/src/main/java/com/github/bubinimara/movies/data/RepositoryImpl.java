@@ -1,5 +1,6 @@
 package com.github.bubinimara.movies.data;
 
+import com.github.bubinimara.movies.data.cache.InMemoryCache;
 import com.github.bubinimara.movies.data.entity.MovieEntity;
 import com.github.bubinimara.movies.data.entity.TmbApiResponse;
 import com.github.bubinimara.movies.data.mock.MockRepo;
@@ -15,21 +16,28 @@ import io.reactivex.Observable;
  */
 
 public class RepositoryImpl implements Repository {
-    private MockRepo mockRepo;
+
+    private InMemoryCache cache;
     private ApiTmb apiTmb;
     String apiKey = "93aea0c77bc168d8bbce3918cefefa45";
     String language = "en-US";
 
     public RepositoryImpl() {
-        mockRepo = new MockRepo();
+        cache = new InMemoryCache();
         ApiClient client = new ApiClient();
         apiTmb = client.getApiTmb();
     }
 
     @Override
     public Observable<List<MovieEntity>> getMostPopularMovies(int pageNumber) {
+        String keyForCache = "getMostPopularMovies_" + pageNumber;
+        Observable<List<MovieEntity>> moviesFromCache = cache.getMoviesFromCache(keyForCache);
+        if(moviesFromCache!=null){
+            return moviesFromCache;
+        }
+
         return apiTmb.getMostPopularVideos(apiKey,language,pageNumber)
-                .map(TmbApiResponse::getResults);
+                .map(TmbApiResponse::getResults).doOnNext(m->cache.put(keyForCache,m));
     }
 
     @Override
