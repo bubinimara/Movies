@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.fragment.home.HomeFragment;
-import com.github.bubinimara.movies.fragment.SearchFragment;
+import com.github.bubinimara.movies.fragment.search.SearchFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

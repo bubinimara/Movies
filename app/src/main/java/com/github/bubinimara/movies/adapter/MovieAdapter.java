@@ -24,8 +24,6 @@ import butterknife.OnClick;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
 
-
-
     public interface OnItemClicked{
         void onItemClicked(MovieModel movie);
     }
@@ -84,6 +82,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
     public void addMovies(@NonNull Collection<MovieModel> movies, int page){
         // TODO: notify range and sync list
         this.movies.addAll(movies);
+        notifyDataSetChanged();
+    }
+    public void removeAllMovies() {
+        // TODO: notify range and sync list
+        this.movies.clear();
         notifyDataSetChanged();
     }
 
