@@ -15,12 +15,13 @@ import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.adapter.MovieAdapter;
 import com.github.bubinimara.movies.model.MovieModel;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter();
+        presenter = new HomePresenter(Schedulers.newThread(), AndroidSchedulers.mainThread());
         adapter = new MovieAdapter();
         adapter.setOnItemClicked(this::onRowItemCliced);
         adapter.setOnLoadMore(this::onLoadMoreItem);

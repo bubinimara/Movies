@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
+
+
 
 /**
  * Created by davide.
@@ -16,6 +19,8 @@ import io.reactivex.subjects.PublishSubject;
 
 public class SearchPresenter implements IPresenter<SearchView> {
 
+    private final Scheduler uiScheduler;
+    private final Scheduler bgScehduler;
     private SearchView searchView;
     private MockRepo mockRepo;
 
@@ -23,14 +28,16 @@ public class SearchPresenter implements IPresenter<SearchView> {
     private String currentSearchTerm;
 
     private Disposable disposable;
-
+    private Disposable currentSearchDisposable;
     private PublishSubject<State> statePublishSubject;
 
-    public SearchPresenter() {
+    public SearchPresenter(Scheduler bgScehduler, Scheduler uiScheduler) {
         mockRepo = new MockRepo();
         currentPageNumber = 0;
         currentSearchTerm = "";
         statePublishSubject = PublishSubject.create();
+        this.bgScehduler =  bgScehduler;
+        this.uiScheduler = uiScheduler;
     }
 
     @Override
@@ -50,9 +57,23 @@ public class SearchPresenter implements IPresenter<SearchView> {
         statePublishSubject.onNext(new State(currentSearchTerm,currentPageNumber));
     }
 
+
+
     private void observForPageChange(){
-        disposable = statePublishSubject.flatMap(state -> mockRepo.searchMovie(state.search,state.page))
+        //TODO: check cancel
+        disposable = statePublishSubject
+                .flatMap(state -> mockRepo.searchMovie(state.search,state.page)
+                        .doOnSubscribe(this::cancelCurrentSearchMovieTask)
+                        .subscribeOn(bgScehduler)
+                        .observeOn(uiScheduler))
                 .subscribe(this::onSuccess);
+    }
+
+    private void cancelCurrentSearchMovieTask(Disposable disposable) {
+        if(currentSearchDisposable!=null){
+            currentSearchDisposable.dispose();
+        }
+        currentSearchDisposable = disposable;
     }
 
     private void clear() {
@@ -73,8 +94,9 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
     public void onSearch(String s) {
         this.searchView.showEmptyMovies();
+
         currentSearchTerm = s;
-        statePublishSubject.onNext(new State(currentSearchTerm,currentPageNumber));
+        statePublishSubject.onNext(new SearchPresenter.State(currentSearchTerm,currentPageNumber));
     }
 
     static class State{
@@ -90,6 +112,11 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
 
         private ArrayList<MovieModel> getMore(String search, int pageNumber){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             ArrayList<MovieModel> lm = new ArrayList<>();
             for (int i = 0; i < 30; i++) {
                 MovieModel m = new MovieModel();
@@ -102,8 +129,9 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
         public Observable<List<MovieModel>> searchMovie(String search, int page) {
             return Observable.create(emitter -> {
-                if(!emitter.isDisposed())
-                    emitter.onNext(getMore(search,page));
+                if(!emitter.isDisposed()) {
+                    emitter.onNext(getMore(search, page));
+                }
             });
         }
     }

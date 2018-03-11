@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -15,6 +16,8 @@ import io.reactivex.subjects.PublishSubject;
  */
 
 public class HomePresenter implements IPresenter<HomeView> {
+    private final Scheduler uiScheduler;
+    private final Scheduler bgScehduler;
 
     private HomeView homeView;
     private MockRepo mockRepo;
@@ -22,12 +25,14 @@ public class HomePresenter implements IPresenter<HomeView> {
     private int currentPageNumber;
     private Disposable disposable;
 
-    private PublishSubject<Integer> onNextPage;
+    private PublishSubject<Integer> statePublishSubject;
 
-    public HomePresenter() {
+    public HomePresenter(Scheduler bgScehduler, Scheduler uiScheduler) {
+        this.bgScehduler = bgScehduler;
+        this.uiScheduler = uiScheduler;
         mockRepo = new MockRepo();
         currentPageNumber = 0;
-        onNextPage = PublishSubject.create();
+        statePublishSubject = PublishSubject.create();
     }
 
     @Override
@@ -44,11 +49,16 @@ public class HomePresenter implements IPresenter<HomeView> {
 
     private void initialize() {
         observForPageChange();
-        onNextPage.onNext(currentPageNumber);
+        statePublishSubject.onNext(currentPageNumber);
     }
 
     private void observForPageChange(){
-        disposable = onNextPage.flatMap(m -> mockRepo.getMostPopularMovie(m))
+        disposable = statePublishSubject
+                .flatMap(m -> mockRepo
+                        .getMostPopularMovie(m)
+                        .subscribeOn(bgScehduler)
+                        .observeOn(uiScheduler)
+                    )
                 .subscribe(this::onSuccess);
     }
 
@@ -65,7 +75,7 @@ public class HomePresenter implements IPresenter<HomeView> {
 
     public void onLoadMore(int currentPage){
         currentPageNumber++;
-        onNextPage.onNext(currentPageNumber);
+        statePublishSubject.onNext(currentPageNumber);
     }
 
     private static class MockRepo{
@@ -79,6 +89,11 @@ public class HomePresenter implements IPresenter<HomeView> {
 
         private ArrayList<MovieModel> getMore(int pageNumber){
             ArrayList<MovieModel> lm = new ArrayList<>();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             for (int i = 0; i < 30; i++) {
                 MovieModel m = new MovieModel();
                 m.setTitle("Movie "+pageNumber+"_"+i);
