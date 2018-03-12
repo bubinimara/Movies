@@ -119,32 +119,4 @@ public class SearchPresenter implements IPresenter<SearchView> {
             this.page = page;
         }
     }
-    private static class MockRepo{
-
-
-        private ArrayList<MovieModel> getMore(String search, int pageNumber){
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            ArrayList<MovieModel> lm = new ArrayList<>();
-            for (int i = 0; i < 30; i++) {
-                MovieModel m = new MovieModel();
-                m.setTitle("Search "+pageNumber+"_"+i + ": "+search);
-                lm.add(m);
-            }
-
-            return lm;
-        }
-
-        public Observable<List<MovieModel>> searchMovie(String search, int page) {
-            return Observable.create(emitter -> {
-                if(!emitter.isDisposed()) {
-                    emitter.onNext(getMore(search, page));
-                }
-            });
-        }
-    }
-
 }
