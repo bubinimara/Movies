@@ -50,7 +50,9 @@ public class SearchFragment extends Fragment implements SearchView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MovieApp app = (MovieApp) getActivity().getApplication();
-        presenter = new SearchPresenter(app.getRepository(), Schedulers.newThread(), AndroidSchedulers.mainThread());
+        presenter = new SearchPresenter(app.getRepository(),
+                Schedulers.io(),
+                AndroidSchedulers.mainThread());
     }
 
     @Override

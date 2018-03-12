@@ -5,12 +5,13 @@ import com.github.bubinimara.movies.data.Repository;
 import com.github.bubinimara.movies.model.MovieModel;
 import com.github.bubinimara.movies.model.mapper.MovieModelMapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
 
 
@@ -22,7 +23,7 @@ import io.reactivex.subjects.PublishSubject;
 public class SearchPresenter implements IPresenter<SearchView> {
 
     private final Scheduler uiScheduler;
-    private final Scheduler bgScehduler;
+    private final Scheduler bgScheduler;
     private final Repository repository;
     private SearchView searchView;
 
@@ -33,12 +34,12 @@ public class SearchPresenter implements IPresenter<SearchView> {
     private Disposable currentSearchDisposable;
     private PublishSubject<State> statePublishSubject;
 
-    public SearchPresenter(Repository repository, Scheduler bgScehduler, Scheduler uiScheduler) {
+    public SearchPresenter(Repository repository, Scheduler bgScheduler, Scheduler uiScheduler) {
         this.repository = repository;
         currentPageNumber = 1;
         currentSearchTerm = "";
         statePublishSubject = PublishSubject.create();
-        this.bgScehduler =  bgScehduler;
+        this.bgScheduler = bgScheduler;
         this.uiScheduler = uiScheduler;
     }
 
@@ -56,24 +57,45 @@ public class SearchPresenter implements IPresenter<SearchView> {
 
     private void initialize() {
         observForPageChange();
-        //statePublishSubject.onNext(new State(currentSearchTerm,currentPageNumber));
     }
 
 
 
     private void observForPageChange(){
-        //TODO: check cancel
         disposable = statePublishSubject
-                .flatMap(state -> repository.searchMovie(state.search,state.page)
-                        .doOnSubscribe(this::cancelCurrentSearchMovieTask)
-                        .subscribeOn(bgScehduler)
-                        .observeOn(uiScheduler))
-                .map(MovieModelMapper::transform)
-                .subscribe(this::onSuccess,this::onError);
+                .debounce(300, TimeUnit.MILLISECONDS) // reduce frequency
+                //.distinctUntilChanged() // ignore same request
+                .switchMap(this::searchMovieFromRepo)
+                .observeOn(uiScheduler)
+                .subscribeOn(bgScheduler)
+                .subscribeWith(new DisposableObserver<List<MovieModel>>(){
+                    @Override
+                    public void onNext(List<MovieModel> movies) {
+                        onSuccess(movies);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private ObservableSource<List<MovieModel>> searchMovieFromRepo(State state) {
+        return repository
+                .searchMovie(state.search,state.page)
+                .doOnSubscribe(this::cancelCurrentSearchMovieTask)
+                .map(MovieModelMapper::transform);
     }
 
     private void onError(Throwable throwable) {
         searchView.showError(SearchView.Errors.UNKNOWN);
+        throwable.printStackTrace();
     }
 
     private void cancelCurrentSearchMovieTask(Disposable disposable) {
@@ -106,8 +128,9 @@ public class SearchPresenter implements IPresenter<SearchView> {
         if(currentSearchTerm.isEmpty()){
             return;
         }
+        statePublishSubject
+                .onNext(new SearchPresenter.State(currentSearchTerm,currentPageNumber));
 
-        statePublishSubject.onNext(new SearchPresenter.State(currentSearchTerm,currentPageNumber));
     }
 
     static class State{
