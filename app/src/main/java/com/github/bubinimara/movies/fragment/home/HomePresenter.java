@@ -85,31 +85,4 @@ public class HomePresenter implements IPresenter<HomeView> {
         currentPageNumber++;
         statePublishSubject.onNext(currentPageNumber);
     }
-
-    private static class MockRepo{
-        public Observable<List<MovieModel>> getMostPopularMovie(int pageNumber){
-            return Observable.create(emitter -> {
-                if(!emitter.isDisposed())
-                    emitter.onNext(getMore(pageNumber));
-            });
-        }
-
-
-        private ArrayList<MovieModel> getMore(int pageNumber){
-            ArrayList<MovieModel> lm = new ArrayList<>();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < 30; i++) {
-                MovieModel m = new MovieModel();
-                m.setTitle("Movie "+pageNumber+"_"+i);
-                lm.add(m);
-            }
-
-            return lm;
-        }
-    }
-
 }
