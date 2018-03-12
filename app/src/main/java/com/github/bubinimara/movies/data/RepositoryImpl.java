@@ -17,15 +17,20 @@ import io.reactivex.Observable;
 
 public class RepositoryImpl implements Repository {
 
-    private InMemoryCache cache;
+    private InMemoryCache<List<MovieEntity>> cache;
     private ApiTmb apiTmb;
     String apiKey = "93aea0c77bc168d8bbce3918cefefa45";
     String language = "en-US";
 
     public RepositoryImpl() {
-        cache = new InMemoryCache();
+        cache = new InMemoryCache<>();
         ApiClient client = new ApiClient();
         apiTmb = client.getApiTmb();
+    }
+
+    public RepositoryImpl(InMemoryCache cache, ApiTmb apiTmb) {
+        this.cache = cache;
+        this.apiTmb = apiTmb;
     }
 
     @Override

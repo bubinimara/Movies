@@ -5,10 +5,9 @@ import com.github.bubinimara.movies.data.Repository;
 import com.github.bubinimara.movies.model.MovieModel;
 import com.github.bubinimara.movies.model.mapper.MovieModelMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -18,8 +17,9 @@ import io.reactivex.subjects.PublishSubject;
  */
 
 public class HomePresenter implements IPresenter<HomeView> {
+    private static final String TAG = HomePresenter.class.getSimpleName();
     private final Scheduler uiScheduler;
-    private final Scheduler bgScehduler;
+    private final Scheduler bgScheduler;
     private final Repository repository;
 
     private HomeView homeView;
@@ -29,9 +29,9 @@ public class HomePresenter implements IPresenter<HomeView> {
 
     private PublishSubject<Integer> statePublishSubject;
 
-    public HomePresenter(Repository repository, Scheduler bgScehduler, Scheduler uiScheduler) {
+    public HomePresenter(Repository repository, Scheduler bgScheduler, Scheduler uiScheduler) {
         this.repository = repository;
-        this.bgScehduler = bgScehduler;
+        this.bgScheduler = bgScheduler;
         this.uiScheduler = uiScheduler;
 
         currentPageNumber = 1;
@@ -51,21 +51,23 @@ public class HomePresenter implements IPresenter<HomeView> {
     }
 
     private void initialize() {
-        observForPageChange();
-        statePublishSubject.onNext(currentPageNumber);
+        observeForPageChange();
     }
 
-    private void observForPageChange(){
+    private void observeForPageChange(){
         disposable = statePublishSubject
-                .flatMap(m -> repository
-                        .getMostPopularMovies(m)
-                        .subscribeOn(bgScehduler)
-                        .observeOn(uiScheduler)
-                    )
-                .map(MovieModelMapper::transform)
+                .startWith(currentPageNumber)
+                .flatMap(this::getMostPopularMoviesFromRepo)
+                .observeOn(uiScheduler)
+                .subscribeOn(bgScheduler)
                 .subscribe(this::onSuccess,this::onError);
     }
 
+    private ObservableSource<List<MovieModel>> getMostPopularMoviesFromRepo(Integer page) {
+        return repository
+                .getMostPopularMovies(page)
+                .map(MovieModelMapper::transform);
+    }
 
     private void clear() {
         if(disposable!=null && !disposable.isDisposed()){

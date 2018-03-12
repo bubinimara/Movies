@@ -49,7 +49,10 @@ public class HomeFragment extends Fragment implements HomeView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MovieApp app = (MovieApp) getActivity().getApplication();
-        presenter = new HomePresenter(app.getRepository(), Schedulers.newThread(), AndroidSchedulers.mainThread());
+        presenter = new HomePresenter(app.getRepository(),
+                Schedulers.io(),
+                AndroidSchedulers.mainThread());
+
         adapter = new MovieAdapter();
         adapter.setOnItemClicked(this::onRowItemCliced);
         adapter.setOnLoadMore(this::onLoadMoreItem);
@@ -57,12 +60,10 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     private void onLoadMoreItem(int currentPage) {
-        Toast.makeText(getContext(),"onLoadMore",Toast.LENGTH_SHORT).show();
         presenter.onLoadMore(currentPage);
     }
 
     private void onRowItemCliced(MovieModel movieModel) {
-        Toast.makeText(getContext(),"onRowItemClicked",Toast.LENGTH_SHORT).show();
     }
 
     @Override
