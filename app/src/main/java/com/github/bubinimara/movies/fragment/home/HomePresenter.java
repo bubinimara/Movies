@@ -7,6 +7,7 @@ import com.github.bubinimara.movies.model.mapper.MovieModelMapper;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
@@ -51,7 +52,13 @@ public class HomePresenter implements IPresenter<HomeView> {
     }
 
     private void initialize() {
-        observeForPageChange();
+        /*observeForPageChange();*/
+        homePresenterState.saveState("",1);
+        disposable = Observable.concat(buildObserverForStateChanges(),buildObserverForViews())
+
+                .subscribeOn(bgScheduler)
+                .observeOn(uiScheduler)
+                .subscribe(this::onSuccess,this::onError);
     }
 
     private void observeForPageChange(){
@@ -64,9 +71,34 @@ public class HomePresenter implements IPresenter<HomeView> {
     }
 
     private ObservableSource<List<MovieModel>> getMostPopularMoviesFromRepo(Integer page) {
+        Log.d(TAG, "getMostPopularMoviesFromRepo1: "+page);
         return repository
                 .getMostPopularMovies(page)
                 .map(MovieModelMapper::transform);
+    }
+    private ObservableSource<List<MovieModel>> getMostPopularMoviesFromRepo2(Integer page) {
+        Log.d(TAG, "getMostPopularMoviesFromRepo2: "+page);
+        return repository
+                .getMostPopularMovies(page)
+                .map(MovieModelMapper::transform)
+                .observeOn(uiScheduler)
+                .subscribeOn(bgScheduler)
+                ;
+    }
+
+    Observable<List<MovieModel>> buildObserverForStateChanges(){
+        return homePresenterState.loadState("")
+                .defaultIfEmpty(5)
+                .onErrorReturnItem(1)
+                .flatMap(i -> Observable.range(1, i))
+                .flatMap(this::getMostPopularMoviesFromRepo)
+                .flatMapIterable(i -> i)
+                .toList().toObservable();
+
+    }
+    Observable<List<MovieModel>> buildObserverForViews(){
+        return statePublishSubject.flatMap(this::getMostPopularMoviesFromRepo2)
+                ;
     }
 
     private void clear() {
@@ -81,8 +113,8 @@ public class HomePresenter implements IPresenter<HomeView> {
 
     private void onError(Throwable throwable) {
         homeView.showError(HomeView.Errors.UNKNOWN);
+        throwable.printStackTrace();
     }
-
     public void onLoadMore(int currentPage){
         currentPageNumber++;
         statePublishSubject.onNext(currentPageNumber);

@@ -1,9 +1,9 @@
 package com.github.bubinimara.movies.data;
 
+import com.github.bubinimara.movies.BuildConfig;
 import com.github.bubinimara.movies.data.cache.InMemoryCache;
 import com.github.bubinimara.movies.data.entity.MovieEntity;
 import com.github.bubinimara.movies.data.entity.TmbApiResponse;
-import com.github.bubinimara.movies.data.mock.MockRepo;
 import com.github.bubinimara.movies.data.net.ApiClient;
 import com.github.bubinimara.movies.data.net.ApiTmb;
 
@@ -16,16 +16,16 @@ import io.reactivex.Observable;
  */
 
 public class RepositoryImpl implements Repository {
-
     private InMemoryCache<List<MovieEntity>> cache;
     private ApiTmb apiTmb;
-    String apiKey = "93aea0c77bc168d8bbce3918cefefa45";
+    String apiKey =  BuildConfig.TMDB_API_KEY;
     String language = "en-US";
 
     public RepositoryImpl() {
         cache = new InMemoryCache<>();
         ApiClient client = new ApiClient();
         apiTmb = client.getApiTmb();
+
     }
 
     public RepositoryImpl(InMemoryCache cache, ApiTmb apiTmb) {
