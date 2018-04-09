@@ -2,8 +2,10 @@ package com.github.bubinimara.app.data;
 
 import com.github.bubinimara.app.data.cache.InMemoryCache;
 import com.github.bubinimara.app.data.entity.PageMovieEntity;
+import com.github.bubinimara.app.data.entity.mapper.MovieMapper;
 import com.github.bubinimara.app.data.entity.mapper.PageMovieMapper;
 import com.github.bubinimara.app.data.net.ApiTmb;
+import com.github.bubinimara.app.domain.Movie;
 import com.github.bubinimara.app.domain.PageMovie;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
 
@@ -41,6 +43,11 @@ public class MovieRepositoryImpl implements MovieRepository {
         String keyForCache = "search_for_term_"+language+pageNumber+searchTerm;
         Observable<PageMovieEntity> deferApiCall = Observable.defer(() -> apiTmb.searchForVideos(language,searchTerm, pageNumber));
         return buildChainObservable(keyForCache, deferApiCall);
+    }
+
+    @Override
+    public Observable<Movie> findMovieById(String language, long movieId) {
+        return apiTmb.findMovieById(movieId,language).map(MovieMapper::transform);
     }
 
     private Observable<PageMovie> buildChainObservable(String keyForCache, Observable<PageMovieEntity> deferApiCall) {

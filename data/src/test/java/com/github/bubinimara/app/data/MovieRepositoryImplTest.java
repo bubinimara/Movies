@@ -54,7 +54,7 @@ public class MovieRepositoryImplTest {
         Mockito.when(cache.get(Mockito.anyString())).thenReturn(Observable.empty());
         Mockito.when(apiTmb.getMostPopularVideos(Mockito.anyString(),Mockito.anyInt())).thenReturn(Observable.just(pageMovieEntity));
         TestObserver<PageMovie> testObserver = TestObserver.create();
-        repository.getMostPopularMovies(1)
+        repository.getMostPopularMovies(language,1)
             .subscribe(testObserver);
 
         testObserver.assertNoErrors();
@@ -71,7 +71,7 @@ public class MovieRepositoryImplTest {
 //        Mockito.when(apiTmb.getMostPopularVideos(Mockito.anyString(),Mockito.anyInt())).thenThrow(new Throwable());
 
         TestObserver<PageMovie> testObserver = TestObserver.create();
-        repository.getMostPopularMovies(1)
+        repository.getMostPopularMovies(language,1)
                 .subscribe(testObserver);
 
         testObserver.assertNoErrors();
@@ -91,7 +91,7 @@ public class MovieRepositoryImplTest {
         Mockito.when(apiTmb.getMostPopularVideos(Mockito.anyString(),Mockito.anyInt())).thenReturn(Observable.error(throwable));//net error
 
         TestObserver<PageMovie> testObserver = TestObserver.create();
-        repository.getMostPopularMovies(1)
+        repository.getMostPopularMovies(language,1)
                 .subscribe(testObserver);
 
         testObserver.assertError(throwable);
@@ -170,7 +170,7 @@ public class MovieRepositoryImplTest {
                     return Observable.just(pageMovieEntity);
                 });
 
-        repository.getMostPopularMovies(0)
+        repository.getMostPopularMovies(language,0)
         .subscribe(TestObserver.create());
 
         repository.searchMovie(language, "",0)
@@ -191,11 +191,11 @@ public class MovieRepositoryImplTest {
                     return Observable.just(pageMovieEntity);
                 });
 
-        repository.getMostPopularMovies(0)
+        repository.getMostPopularMovies(language,0)
                 .subscribe(TestObserver.create());
-        repository.getMostPopularMovies(0)
+        repository.getMostPopularMovies(language,0)
                 .subscribe(TestObserver.create());
-        repository.getMostPopularMovies(1)
+        repository.getMostPopularMovies(language,1)
                 .subscribe(TestObserver.create());
 
         assertFalse(args.isEmpty());

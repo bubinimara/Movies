@@ -93,6 +93,20 @@ public class ApiTmbTest {
     }
 
     @Test
+    public void findVideoById() throws Exception {
+        TestObserver<MovieEntity> testObserver = TestObserver.create();
+        mockWebServer.enqueue(getMovieResponse());
+
+        apiTmb.findMovieById(337167,"lang")
+                .subscribe(testObserver);
+
+        testObserver.assertComplete();
+        testObserver.assertNoErrors();
+        testObserver.assertValueCount(1);
+        assertMovie0(testObserver.values().get(0));
+    }
+
+    @Test
     public void getConfiguration() throws IOException {
         TestObserver<ConfigurationEntity> testObserver = TestObserver.create();
         mockWebServer.enqueue(getConfigurationResponse());
@@ -170,6 +184,10 @@ public class ApiTmbTest {
     }
     public MockResponse getConfigurationResponse() throws IOException {
         String body = mockApiResponseCreator.getResponseBody("configuration.json");
+        return new MockResponse().setBody(body).setResponseCode(200);
+    }
+    public MockResponse getMovieResponse() throws IOException {
+        String body = mockApiResponseCreator.getResponseBody("movie.json");
         return new MockResponse().setBody(body).setResponseCode(200);
     }
 }

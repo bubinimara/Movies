@@ -79,7 +79,7 @@ public class ApiClient {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            Log.d(TAG, "intercept: "+request.url().toString());
+            //Log.d(TAG, "intercept: "+request.url().toString());
             Response response = chain.proceed(request);
             return response;
         }
