@@ -1,7 +1,7 @@
 package com.github.bubinimara.app.domain.cases;
 
 import com.github.bubinimara.app.domain.PageMovie;
-import com.github.bubinimara.app.domain.repository.Repository;
+import com.github.bubinimara.app.domain.repository.MovieRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class SearchForMoviesTest {
     private SearchForMovies searchForMovies;
 
     @Mock
-    private Repository repository;
+    private MovieRepository repository;
     @Mock
     private PageMovie pageMovie;
     @Mock

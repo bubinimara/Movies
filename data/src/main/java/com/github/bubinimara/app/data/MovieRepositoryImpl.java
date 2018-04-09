@@ -5,7 +5,7 @@ import com.github.bubinimara.app.data.entity.PageMovieEntity;
 import com.github.bubinimara.app.data.entity.mapper.PageMovieMapper;
 import com.github.bubinimara.app.data.net.ApiTmb;
 import com.github.bubinimara.app.domain.PageMovie;
-import com.github.bubinimara.app.domain.repository.Repository;
+import com.github.bubinimara.app.domain.repository.MovieRepository;
 
 import javax.inject.Inject;
 
@@ -15,18 +15,18 @@ import io.reactivex.Observable;
  * Created by davide.
  */
 //TODO: language should be get from api
-public class RepositoryImpl implements Repository {
+public class MovieRepositoryImpl implements MovieRepository {
     private InMemoryCache<PageMovieEntity> cache;
     private ApiTmb apiTmb;
     String language = "en-US";
 
     @Inject
-    public RepositoryImpl(ApiTmb apiTmb) {
+    public MovieRepositoryImpl(ApiTmb apiTmb) {
         this.apiTmb = apiTmb;
         this.cache = new InMemoryCache<>();
     }
 
-    public RepositoryImpl( ApiTmb apiTmb, InMemoryCache<PageMovieEntity> cache) {
+    public MovieRepositoryImpl(ApiTmb apiTmb, InMemoryCache<PageMovieEntity> cache) {
         this.apiTmb = apiTmb;
         this.cache = cache;
     }

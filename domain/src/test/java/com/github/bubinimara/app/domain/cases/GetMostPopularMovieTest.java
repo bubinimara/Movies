@@ -1,7 +1,7 @@
 package com.github.bubinimara.app.domain.cases;
 
 import com.github.bubinimara.app.domain.PageMovie;
-import com.github.bubinimara.app.domain.repository.Repository;
+import com.github.bubinimara.app.domain.repository.MovieRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class GetMostPopularMovieTest {
     private GetMostPopularMovie getMostPopularMovie;
 
     @Mock
-    private Repository repository;
+    private MovieRepository repository;
 
     @Mock
     private PageMovie pageMovie;

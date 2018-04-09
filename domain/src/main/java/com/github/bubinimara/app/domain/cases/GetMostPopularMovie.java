@@ -1,7 +1,7 @@
 package com.github.bubinimara.app.domain.cases;
 
 import com.github.bubinimara.app.domain.PageMovie;
-import com.github.bubinimara.app.domain.repository.Repository;
+import com.github.bubinimara.app.domain.repository.MovieRepository;
 import com.github.bubinimara.app.domain.scheduler.BgScheduler;
 import com.github.bubinimara.app.domain.scheduler.UiScheduler;
 
@@ -14,10 +14,10 @@ import io.reactivex.Observable;
  */
 
 public class GetMostPopularMovie extends UseCase<PageMovie, GetMostPopularMovie.Params> {
-    private final Repository repository;
+    private final MovieRepository repository;
 
     @Inject
-    public GetMostPopularMovie(UiScheduler uiScheduler, BgScheduler bgScheduler, Repository repository) {
+    public GetMostPopularMovie(UiScheduler uiScheduler, BgScheduler bgScheduler, MovieRepository repository) {
         super(uiScheduler, bgScheduler);
         this.repository = repository;
     }

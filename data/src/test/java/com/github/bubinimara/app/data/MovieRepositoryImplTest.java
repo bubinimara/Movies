@@ -24,8 +24,8 @@ import static org.junit.Assert.assertNotEquals;
 /**
  * Created by davide.
  */
-public class RepositoryImplTest {
-    private RepositoryImpl repository;
+public class MovieRepositoryImplTest {
+    private MovieRepositoryImpl repository;
 
     @Mock
     private ApiTmb apiTmb;
@@ -42,7 +42,7 @@ public class RepositoryImplTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        repository = new RepositoryImpl(apiTmb,cache);
+        repository = new MovieRepositoryImpl(apiTmb,cache);
     }
 
     @After

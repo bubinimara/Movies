@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.github.bubinimara.app.BuildConfig;
 import com.github.bubinimara.app.MovieApp;
+import com.github.bubinimara.app.data.MovieRepositoryImpl;
+import com.github.bubinimara.app.domain.repository.MovieRepository;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.data.ConfigurationRepositoryImpl;
 import com.github.bubinimara.app.domain.repository.ConfigurationRepository;
-import com.github.bubinimara.app.domain.repository.Repository;
-import com.github.bubinimara.app.data.RepositoryImpl;
 import com.github.bubinimara.app.data.net.ApiClient;
 import com.github.bubinimara.app.data.net.ApiTmb;
 import com.github.bubinimara.app.domain.scheduler.BgScheduler;
@@ -53,7 +53,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    Repository provideRepository(RepositoryImpl repository){
+    MovieRepository provideRepository(MovieRepositoryImpl repository){
         return repository;
     }
 
