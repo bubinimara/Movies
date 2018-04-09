@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.github.bubinimara.app.BuildConfig;
 import com.github.bubinimara.app.MovieApp;
+import com.github.bubinimara.app.data.LanguageRepositoryImpl;
 import com.github.bubinimara.app.data.MovieRepositoryImpl;
+import com.github.bubinimara.app.domain.repository.LanguageRepository;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.data.ConfigurationRepositoryImpl;
@@ -53,7 +55,14 @@ public class ApplicationModule {
     }
 
     @Provides
-    MovieRepository provideRepository(MovieRepositoryImpl repository){
+    MovieRepository provideMovieRepository(MovieRepositoryImpl repository){
+        return repository;
+    }
+
+
+    @Singleton
+    @Provides
+    LanguageRepository provideLanguageRepository(LanguageRepositoryImpl repository){
         return repository;
     }
 

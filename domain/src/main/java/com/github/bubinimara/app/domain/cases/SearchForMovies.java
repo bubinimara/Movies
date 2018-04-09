@@ -1,6 +1,7 @@
 package com.github.bubinimara.app.domain.cases;
 
 import com.github.bubinimara.app.domain.PageMovie;
+import com.github.bubinimara.app.domain.repository.LanguageRepository;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
 import com.github.bubinimara.app.domain.scheduler.BgScheduler;
 import com.github.bubinimara.app.domain.scheduler.UiScheduler;
@@ -15,18 +16,23 @@ import io.reactivex.Observable;
 
 public class SearchForMovies  extends UseCase<PageMovie,SearchForMovies.Params>{
 
-    private final MovieRepository repository;
+    private final MovieRepository movieRepository;
+    private final LanguageRepository languageRepository;
+
 
     @Inject
-    public SearchForMovies(UiScheduler uiScheduler, BgScheduler bgScheduler, MovieRepository repository) {
+    public SearchForMovies(UiScheduler uiScheduler, BgScheduler bgScheduler, MovieRepository movieRepository, LanguageRepository languageRepository) {
         super(uiScheduler, bgScheduler);
-        this.repository = repository;
+        this.movieRepository = movieRepository;
+        this.languageRepository = languageRepository;
     }
 
 
     @Override
     Observable<PageMovie> buildObservable(Params params) {
-        return repository.searchMovie(params.search,params.page);
+
+        return languageRepository.getLanguageInUse()
+                .flatMap(language -> movieRepository.searchMovie(language.getIsoCode(),params.search,params.page));
     }
 
     public static class  Params{

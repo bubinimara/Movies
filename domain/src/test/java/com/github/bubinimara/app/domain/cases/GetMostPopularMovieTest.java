@@ -36,7 +36,7 @@ public class GetMostPopularMovieTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        getMostPopularMovie = new GetMostPopularMovie(TestScheduler::new,TestScheduler::new,repository);
+        getMostPopularMovie = new GetMostPopularMovie(TestScheduler::new,TestScheduler::new,repository, languageRepository);
     }
 
     @Test

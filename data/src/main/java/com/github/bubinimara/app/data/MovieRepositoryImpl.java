@@ -14,11 +14,9 @@ import io.reactivex.Observable;
 /**
  * Created by davide.
  */
-//TODO: language should be get from api
 public class MovieRepositoryImpl implements MovieRepository {
     private InMemoryCache<PageMovieEntity> cache;
     private ApiTmb apiTmb;
-    String language = "en-US";
 
     @Inject
     public MovieRepositoryImpl(ApiTmb apiTmb) {
@@ -32,15 +30,15 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Observable<PageMovie> getMostPopularMovies(int pageNumber) {
-        String keyForCache = "getMostPopularMovies_" + pageNumber;
+    public Observable<PageMovie> getMostPopularMovies(String language,int pageNumber) {
+        String keyForCache = "getMostPopularMovies_" +language + pageNumber;
         Observable<PageMovieEntity> deferApiCall = Observable.defer(() -> apiTmb.getMostPopularVideos(language, pageNumber));
         return buildChainObservable(keyForCache, deferApiCall);
     }
 
     @Override
-    public Observable<PageMovie> searchMovie(String searchTerm, int pageNumber) {
-        String keyForCache = "search_for_term_"+pageNumber+searchTerm;
+    public Observable<PageMovie> searchMovie(String language, String searchTerm, int pageNumber) {
+        String keyForCache = "search_for_term_"+language+pageNumber+searchTerm;
         Observable<PageMovieEntity> deferApiCall = Observable.defer(() -> apiTmb.searchForVideos(language,searchTerm, pageNumber));
         return buildChainObservable(keyForCache, deferApiCall);
     }

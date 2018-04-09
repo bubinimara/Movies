@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 /**
  * Created by davide.
  */
-class LanguageRepositoryImpl implements LanguageRepository {
+public class LanguageRepositoryImpl implements LanguageRepository {
 
     @Inject
     public LanguageRepositoryImpl() {

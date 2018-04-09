@@ -111,7 +111,7 @@ public class MovieRepositoryImplTest {
         Mockito.when(cache.get(Mockito.anyString())).thenReturn(Observable.empty());
         Mockito.when(apiTmb.searchForVideos(Mockito.anyString(),Mockito.anyString(),Mockito.anyInt())).thenReturn(Observable.just(pageMovieEntity));
         TestObserver<PageMovie> testObserver = TestObserver.create();
-        repository.searchMovie("",1)
+        repository.searchMovie(language, "",1)
                 .subscribe(testObserver);
 
         testObserver.assertNoErrors();
@@ -127,7 +127,7 @@ public class MovieRepositoryImplTest {
         Mockito.when(cache.get(Mockito.anyString())).thenReturn(Observable.just(pageMovieEntity));
 
         TestObserver<PageMovie> testObserver = TestObserver.create();
-        repository.searchMovie("",1)
+        repository.searchMovie(language, "",1)
                 .subscribe(testObserver);
 
         testObserver.assertNoErrors();
@@ -147,7 +147,7 @@ public class MovieRepositoryImplTest {
         Mockito.when(apiTmb.searchForVideos(Mockito.anyString(),Mockito.anyString(),Mockito.anyInt())).thenReturn(Observable.error(throwable));//net error
 
         TestObserver<PageMovie> testObserver = TestObserver.create();
-        repository.searchMovie("",1)
+        repository.searchMovie(language, "",1)
                 .subscribe(testObserver);
 
         testObserver.assertError(throwable);
@@ -173,7 +173,7 @@ public class MovieRepositoryImplTest {
         repository.getMostPopularMovies(0)
         .subscribe(TestObserver.create());
 
-        repository.searchMovie("",0)
+        repository.searchMovie(language, "",0)
         .subscribe(TestObserver.create());
 
         assertFalse(args.isEmpty());

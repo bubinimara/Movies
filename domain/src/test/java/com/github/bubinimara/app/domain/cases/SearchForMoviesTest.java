@@ -35,7 +35,7 @@ public class SearchForMoviesTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        searchForMovies = new SearchForMovies(TestScheduler::new,TestScheduler::new,repository);
+        searchForMovies = new SearchForMovies(TestScheduler::new,TestScheduler::new,repository, languageRepository);
     }
 
     @After
