@@ -4,7 +4,6 @@ import com.github.bubinimara.app.domain.Language;
 import com.github.bubinimara.app.domain.repository.LanguageRepository;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -21,7 +20,6 @@ public class LanguageRepositoryImpl implements LanguageRepository {
 
     @Override
     public Observable<Language> getLanguageInUse() {
-        //return Observable.just(new Language(Locale.getDefault().getDisplayName(),Locale.getDefault().getISO3Language()));
         return Observable.just(new Language("English","en"));
     }
 
