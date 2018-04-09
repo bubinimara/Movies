@@ -2,6 +2,7 @@ package com.github.bubinimara.app.di.components;
 
 import android.content.Context;
 
+import com.github.bubinimara.app.domain.repository.LanguageRepository;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.domain.repository.ConfigurationRepository;
@@ -22,7 +23,8 @@ import dagger.Component;
 public interface ApplicationComponent {
     // expose to sub-graph
     Context provideContext();
-    MovieRepository provideRepository();
+    MovieRepository provideMovieRepository();
+    LanguageRepository provideLanguageRepository();
     ConfigurationRepository configurationRepository();
     UiScheduler provideuiScheduler();
     BgScheduler providebgScheduler();

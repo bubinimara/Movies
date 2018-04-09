@@ -9,7 +9,7 @@ import io.reactivex.Observable;
  */
 //TODO: Let return only list of movies
 public interface MovieRepository {
-    Observable<PageMovie> getMostPopularMovies(int pageNumber);
+    Observable<PageMovie> getMostPopularMovies(String language,int pageNumber);
 
-    Observable<PageMovie> searchMovie(String searchTerm, int pageNumber);
+    Observable<PageMovie> searchMovie(String isoCode, String searchTerm, int pageNumber);
 }
