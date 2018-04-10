@@ -97,7 +97,7 @@ public class ApiTmbTest {
         TestObserver<MovieEntity> testObserver = TestObserver.create();
         mockWebServer.enqueue(getMovieResponse());
 
-        apiTmb.findMovieById(337167,"lang")
+        apiTmb.getMovieById(337167,"lang")
                 .subscribe(testObserver);
 
         testObserver.assertComplete();
@@ -105,6 +105,26 @@ public class ApiTmbTest {
         testObserver.assertValueCount(1);
         assertMovie0(testObserver.values().get(0));
     }
+
+    @Test
+    public void getSimilarMovies() throws Exception {
+        TestObserver<PageMovieEntity> testObserver = TestObserver.create();
+        mockWebServer.enqueue(getSimilarMoviesResponse());
+
+        apiTmb.getSimilarMovies(337167,"lang",0)
+                .subscribe(testObserver);
+
+        testObserver.assertComplete();
+        testObserver.assertNoErrors();
+        testObserver.assertValueCount(1);
+        PageMovieEntity pageMovieEntity = testObserver.values().get(0);
+        assertPageMovie(pageMovieEntity);
+        assertFalse(pageMovieEntity.getResults().isEmpty());
+        MovieEntity movie = pageMovieEntity.getResults().get(0);
+        assertMovie0(movie);
+
+    }
+
 
     @Test
     public void getConfiguration() throws IOException {
@@ -190,4 +210,10 @@ public class ApiTmbTest {
         String body = mockApiResponseCreator.getResponseBody("movie.json");
         return new MockResponse().setBody(body).setResponseCode(200);
     }
+
+    private MockResponse getSimilarMoviesResponse() throws IOException {
+        String body = mockApiResponseCreator.getResponseBody("similarMovie.json");
+        return new MockResponse().setBody(body).setResponseCode(200);
+    }
+
 }

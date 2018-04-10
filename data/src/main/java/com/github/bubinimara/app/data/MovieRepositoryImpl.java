@@ -49,11 +49,17 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
+    public Observable<PageMovie> getSimilarMovies(String language, long movieId, int page) {
+        // TODO: add cache
+        return apiTmb.getSimilarMovies(movieId,language,page).map(PageMovieMapper::transform);
+    }
+
+    @Override
     public Observable<Movie> findMovieById(String language, long movieId) {
         String keyForCache = "movie_details_"+language+movieId;
         return movieEntityCache.get(keyForCache)
                 .switchIfEmpty(Observable.defer(
-                        ()->apiTmb.findMovieById(movieId,language)
+                        ()->apiTmb.getMovieById(movieId,language)
                                 .doOnNext(movie ->  movieEntityCache.put(keyForCache,movie))
                 )).map(MovieMapper::transform);
     }

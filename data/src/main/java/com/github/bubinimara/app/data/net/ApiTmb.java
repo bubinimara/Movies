@@ -25,7 +25,18 @@ public interface ApiTmb {
                                                 @Query("page") int page);
 
     @GET("3/movie/{id}")
-    Observable<MovieEntity> findMovieById(@Path("id") long movieId,@Query("language") String language);
+    Observable<MovieEntity> getMovieById(@Path("id") long movieId, @Query("language") String language);
+
+/*
+    @GET("3/movie/{id}?append_to_response=similar")
+    Observable<MovieEntityDetails> getSimilarMovies(@Path("id") long movieId,
+                                                    @Query("language") String language);
+*/
+
+    @GET("3/movie/{id}/similar")
+    Observable<PageMovieEntity> getSimilarMovies(@Path("id") long movieId,
+                                                 @Query("language") String language,
+                                                 @Query("page") int page);
 
     @GET("3/configuration")
     Observable<ConfigurationEntity> getConfiguration();
