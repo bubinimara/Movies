@@ -55,7 +55,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Observable<Movie> findMovieById(String language, long movieId) {
+    public Observable<Movie> getMovieById(String language, long movieId) {
         String keyForCache = "movie_details_"+language+movieId;
         return movieEntityCache.get(keyForCache)
                 .switchIfEmpty(Observable.defer(

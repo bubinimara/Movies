@@ -15,5 +15,5 @@ public interface MovieRepository {
     Observable<PageMovie> searchMovie(String language, String searchTerm, int pageNumber);
 
     Observable<PageMovie> getSimilarMovies(String language,long movieId, int page);
-    Observable<Movie> findMovieById(String language, long movieId);
+    Observable<Movie> getMovieById(String language, long movieId);
 }
