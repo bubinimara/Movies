@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MovieModelMapper {
 
+    // todo: to rename
     public static List<MovieModel> transformConf(List<Movie> movieEntities,Configuration configuration) {
         List<MovieModel> movies = new ArrayList<>(movieEntities.size());
         for (int i = 0;i<movieEntities.size();i++) {
@@ -22,6 +23,7 @@ public class MovieModelMapper {
         }
         return movies;
     }
+    // todo: to remove
     public static List<MovieModel> transform(List<Movie> movieEntities) {
         List<MovieModel> movies = new ArrayList<>(movieEntities.size());
         for (int i = 0;i<movieEntities.size();i++) {

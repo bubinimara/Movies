@@ -41,11 +41,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(new ActivityModule())
-                .build()
-                .inject(this);
+        getActivityComponent().inject(this);
 
         AutoLifecycleBinding<MainView,MainPresenter> autoLifecycleBinding = new AutoLifecycleBinding<>(this,presenter);
         getLifecycle().addObserver(autoLifecycleBinding);

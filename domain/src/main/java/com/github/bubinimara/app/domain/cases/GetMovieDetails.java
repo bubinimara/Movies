@@ -18,6 +18,7 @@ public class GetMovieDetails extends UseCase<Movie,GetMovieDetails.Params> {
     private final MovieRepository movieRepository;
     private final LanguageRepository languageRepository;
 
+
     @Inject
     public GetMovieDetails(UiScheduler uiScheduler, BgScheduler bgScheduler, MovieRepository movieRepository, LanguageRepository languageRepository) {
         super(uiScheduler, bgScheduler);

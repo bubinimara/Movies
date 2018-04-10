@@ -24,7 +24,7 @@ import butterknife.OnClick;
 /**
  * Created by davide.
  */
-
+//TODO: generate abstract movie adapter
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
 
     public interface OnItemClicked{
