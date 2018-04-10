@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
+import com.github.bubinimara.app.ui.activity.details.DetailsActivity;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.ui.fragment.BaseFragment;
 import com.github.bubinimara.app.model.MovieModel;
@@ -77,6 +78,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     private void onRowItemClicked(MovieModel movieModel) {
+        presenter.onMovieClicked(movieModel);
     }
 
     @Override
@@ -114,5 +116,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     public void showError(int type) {
         Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDetailsView(MovieModel movieModel) {
+        DetailsActivity.launchActivity(getActivity(),movieModel.getId());
     }
 }

@@ -34,6 +34,7 @@ public class MovieModelMapper {
 
     public static MovieModel transform(Movie movieEntities, Configuration configuration) {
         MovieModel movieModel = new MovieModel();
+        movieModel.setId(movieEntities.getId());
         movieModel.setTitle(movieEntities.getTitle());
         movieModel.setOverview(movieEntities.getOverview());
         movieModel.setYear(getFormattedDate(movieEntities.getReleaseDate()));

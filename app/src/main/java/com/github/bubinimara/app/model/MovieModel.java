@@ -5,12 +5,21 @@ package com.github.bubinimara.app.model;
  */
 
 public class MovieModel {
+    private long id;
     private String title;
     private String year;
     private String overview;
     private String imageUrl;
 
     public MovieModel() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
