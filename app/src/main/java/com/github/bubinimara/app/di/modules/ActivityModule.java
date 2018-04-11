@@ -3,6 +3,7 @@ package com.github.bubinimara.app.di.modules;
 import com.github.bubinimara.app.di.ActivityScope;
 import com.github.bubinimara.app.domain.scheduler.BgScheduler;
 import com.github.bubinimara.app.domain.scheduler.UiScheduler;
+import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
 
 import javax.inject.Named;
 
@@ -18,16 +19,6 @@ import io.reactivex.schedulers.Schedulers;
 @ActivityScope
 @Module
 public class ActivityModule {
-    @Provides
-    @Named("bgScheduler")
-    Scheduler provideBgScheduler(){
-        return Schedulers.io();
-    }
 
-    @Provides
-    @Named("uiScheduler")
-    Scheduler provideUiScheduler(){
-        return AndroidSchedulers.mainThread();
-    }
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.github.bubinimara.app.domain.repository.LanguageRepository;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
+import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.domain.repository.ConfigurationRepository;
 import com.github.bubinimara.app.di.modules.ApplicationModule;
@@ -30,4 +31,5 @@ public interface ApplicationComponent {
     BgScheduler providebgScheduler();
     @Named("Home") MovieAdapter provideMovieAdapterForHome();
     @Named("Search") MovieAdapter provideMovieAdapterForSearch();
+    ImageMovieAdapter provideImageMovieAdapter();
 }

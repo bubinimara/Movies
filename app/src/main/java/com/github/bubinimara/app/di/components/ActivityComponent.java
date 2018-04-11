@@ -2,6 +2,8 @@ package com.github.bubinimara.app.di.components;
 
 import com.github.bubinimara.app.di.ActivityScope;
 import com.github.bubinimara.app.di.modules.ActivityModule;
+import com.github.bubinimara.app.ui.activity.details.DetailsActivity;
+import com.github.bubinimara.app.ui.fragment.details.MovieDetailsFragment;
 import com.github.bubinimara.app.ui.fragment.home.HomeFragment;
 import com.github.bubinimara.app.ui.activity.main.MainActivity;
 import com.github.bubinimara.app.ui.fragment.search.SearchFragment;
@@ -17,4 +19,7 @@ public interface ActivityComponent {
     void inject(MainActivity baseActivity);
     void inject(HomeFragment homeFragment);
     void inject(SearchFragment searchFragment);
+    void inject(DetailsActivity detailsActivity);
+
+    void inject(MovieDetailsFragment movieDetailsFragment);
 }

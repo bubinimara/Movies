@@ -1,6 +1,7 @@
 package com.github.bubinimara.app.ui.fragment.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
+import com.github.bubinimara.app.ui.activity.details.DetailsActivity;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.ui.fragment.BaseFragment;
 import com.github.bubinimara.app.model.MovieModel;
@@ -55,9 +57,14 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
+    public void onAttach(Context context) {
+        getActivityComponent().inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
 
         getLifecycle().addObserver(new AutoLifecycleBinding<>(this,presenter));
 
@@ -77,6 +84,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     private void onRowItemClicked(MovieModel movieModel) {
+        presenter.onMovieClicked(movieModel);
     }
 
     @Override
@@ -114,5 +122,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     public void showError(int type) {
         Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDetailsView(MovieModel movieModel) {
+        DetailsActivity.launchActivity(getActivity(),movieModel.getId());
     }
 }

@@ -15,7 +15,7 @@ import io.reactivex.Observable;
 /**
  * Created by davide.
  */
-
+// TODO: extract interface
 public class InMemoryCache<T> {
     private static final int DEFAULT_SIZE = 5;
     private final HashMap<WrapperKey,T> map;

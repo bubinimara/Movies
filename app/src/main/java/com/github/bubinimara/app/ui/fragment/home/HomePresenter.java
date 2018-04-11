@@ -80,6 +80,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
         statePublishSubject.onNext(currentPage+1);
     }
 
+    public void onMovieClicked(MovieModel movieModel) {
+        view.showDetailsView(movieModel);
+    }
+
 
     class ListMovieDisposable extends SimpleDisposableObserver<List<MovieModel>>{
 

@@ -15,5 +15,6 @@ public interface HomeView extends IView {
         int UNKNOWN = 0;
     }
     void showMovies(Collection<MovieModel> movies);
+    void showDetailsView(MovieModel movieModel);
     void showError(@Errors int type);
 }

@@ -1,9 +1,12 @@
 package com.github.bubinimara.app.data;
 
 import com.github.bubinimara.app.data.cache.InMemoryCache;
+import com.github.bubinimara.app.data.entity.MovieEntity;
 import com.github.bubinimara.app.data.entity.PageMovieEntity;
+import com.github.bubinimara.app.data.entity.mapper.MovieMapper;
 import com.github.bubinimara.app.data.entity.mapper.PageMovieMapper;
 import com.github.bubinimara.app.data.net.ApiTmb;
+import com.github.bubinimara.app.domain.Movie;
 import com.github.bubinimara.app.domain.PageMovie;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
 
@@ -15,18 +18,20 @@ import io.reactivex.Observable;
  * Created by davide.
  */
 public class MovieRepositoryImpl implements MovieRepository {
-    private InMemoryCache<PageMovieEntity> cache;
+    private InMemoryCache<PageMovieEntity> pageMovieCache;
+    private InMemoryCache<MovieEntity> movieEntityCache;
     private ApiTmb apiTmb;
 
     @Inject
     public MovieRepositoryImpl(ApiTmb apiTmb) {
         this.apiTmb = apiTmb;
-        this.cache = new InMemoryCache<>();
+        this.pageMovieCache = new InMemoryCache<>();
+        this.movieEntityCache = new InMemoryCache<>();
     }
 
-    public MovieRepositoryImpl(ApiTmb apiTmb, InMemoryCache<PageMovieEntity> cache) {
+    public MovieRepositoryImpl(ApiTmb apiTmb, InMemoryCache<PageMovieEntity> pageMovieCache) {
         this.apiTmb = apiTmb;
-        this.cache = cache;
+        this.pageMovieCache = pageMovieCache;
     }
 
     @Override
@@ -43,10 +48,26 @@ public class MovieRepositoryImpl implements MovieRepository {
         return buildChainObservable(keyForCache, deferApiCall);
     }
 
+    @Override
+    public Observable<PageMovie> getSimilarMovies(String language, long movieId, int page) {
+        // TODO: add cache
+        return apiTmb.getSimilarMovies(movieId,language,page).map(PageMovieMapper::transform);
+    }
+
+    @Override
+    public Observable<Movie> getMovieById(String language, long movieId) {
+        String keyForCache = "movie_details_"+language+movieId;
+        return movieEntityCache.get(keyForCache)
+                .switchIfEmpty(Observable.defer(
+                        ()->apiTmb.getMovieById(movieId,language)
+                                .doOnNext(movie ->  movieEntityCache.put(keyForCache,movie))
+                )).map(MovieMapper::transform);
+    }
+
     private Observable<PageMovie> buildChainObservable(String keyForCache, Observable<PageMovieEntity> deferApiCall) {
-        return cache.get(keyForCache)
+        return pageMovieCache.get(keyForCache)
                 .switchIfEmpty(deferApiCall
-                        .doOnNext(n->cache.put(keyForCache,n)))
+                        .doOnNext(n-> pageMovieCache.put(keyForCache,n)))
                 .map(PageMovieMapper::transform);
     }
 }

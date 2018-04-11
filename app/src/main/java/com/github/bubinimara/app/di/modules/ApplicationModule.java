@@ -8,6 +8,7 @@ import com.github.bubinimara.app.data.LanguageRepositoryImpl;
 import com.github.bubinimara.app.data.MovieRepositoryImpl;
 import com.github.bubinimara.app.domain.repository.LanguageRepository;
 import com.github.bubinimara.app.domain.repository.MovieRepository;
+import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
 import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.data.ConfigurationRepositoryImpl;
 import com.github.bubinimara.app.domain.repository.ConfigurationRepository;
@@ -54,6 +55,7 @@ public class ApplicationModule {
         return apiClient.getApiTmb();
     }
 
+    @Singleton
     @Provides
     MovieRepository provideMovieRepository(MovieRepositoryImpl repository){
         return repository;
@@ -95,6 +97,11 @@ public class ApplicationModule {
     @Named("Search")
     MovieAdapter provideMovieAdapterForSearch(){
         return new MovieAdapter();
+    }
+
+    @Provides
+    ImageMovieAdapter provideImageMovieAdapter(){
+        return new ImageMovieAdapter();
     }
 }
 
