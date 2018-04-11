@@ -38,29 +38,22 @@ public class MovieDetailsPresenter extends BasePresenter<MovieDetailsView>{
     public void viewShowed() {
         super.viewShowed();
         compositeDisposable.add(executeMovieDetails(view.getMovieId()));
+        compositeDisposable.add(executeSimilarMovies(view.getMovieId()));
     }
 
 
-
-
-/*
-    public void toZip(long movieId){
-
-                Observable.zip(
-                        getConfiguration.toObservable(null),
-                        getMovieDetails.toObservable(new GetMovieDetails.Params(movieId)),
-                        getSimilarMovies.toObservable(new GetSimilarMovies.Params(movieId,0)),
-                        ((configuration, movie, pageMovie) -> )
-
-
+    @Override
+    public void viewHidden() {
+        super.viewHidden();
+        compositeDisposable.clear();
     }
-*/
+
+
     private Disposable executeSimilarMovies(long movieId){
         return Observable.zip(
                 getConfiguration.toObservable(null),
-                getSimilarMovies.toObservable(new GetSimilarMovies.Params(movieId,0)),
-                ((configuration, pageMovie) -> MovieModelMapper.transformConf(pageMovie.getMovies(),configuration))
-        )
+                getSimilarMovies.toObservable(new GetSimilarMovies.Params(movieId,1)),
+                ((configuration, pageMovie) -> MovieModelMapper.transformConf(pageMovie.getMovies(),configuration)))
                 .subscribeWith(new SimilarDisposable());
     }
 
@@ -78,6 +71,7 @@ public class MovieDetailsPresenter extends BasePresenter<MovieDetailsView>{
         @Override
         public void onNext(MovieModel movieModel) {
             super.onNext(movieModel);
+            view.setTitle(movieModel.getTitle());
             view.setOverview(movieModel.getOverview());
         }
     }

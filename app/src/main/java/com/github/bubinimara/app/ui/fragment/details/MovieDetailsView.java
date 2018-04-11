@@ -14,4 +14,6 @@ public interface MovieDetailsView extends IView {
     void setOverview(String o);
 
     void showSimilarMovie(List<MovieModel> movieModels);
+
+    void setTitle(String title);
 }

@@ -48,7 +48,6 @@ public class DetailsPresenter extends BasePresenter<DetailsView> {
             // threat error
             return;
         }else{
-            //view.showDetails(movieId);
             compositeDisposable.add(execute(movieId));
         }
     }

@@ -76,6 +76,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
         return movies.size();
     }
 
+    public void setMovies(Collection<MovieModel> moviesCollection){
+        synchronized (movies){
+            int size = movies.size();
+            movies.clear();
+            movies.addAll(moviesCollection);
+            notifyDataSetChanged();
+        }
+    }
     public void addMovies(@NonNull Collection<MovieModel> movieCollection){
         synchronized (movies) {
             int size = movies.size();
@@ -83,6 +91,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder>{
             notifyItemRangeInserted(size,movieCollection.size());
         }
     }
+
     public void removeAllMovies() {
         synchronized (movies) {
             int size = movies.size();

@@ -2,16 +2,26 @@ package com.github.bubinimara.app.ui.fragment.details;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
+import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
+import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.ui.fragment.BaseFragment;
 
 import java.util.List;
@@ -34,8 +44,18 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsVi
     @Inject
     MovieDetailsPresenter presenter;
 
+    @Inject
+    ImageMovieAdapter adapter;
+
     @BindView(R.id.movie_overview)
     TextView overview;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     public MovieDetailsFragment() {
     }
@@ -60,13 +80,28 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
+
         getLifecycle().addObserver(new AutoLifecycleBinding<>(this,presenter));
         if (getArguments() != null) {
             movieId = getArguments().getLong(ARG_MOVIE_ID);
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        getActivityComponent().inject(this);
+        super.onAttach(context);
+        if((context instanceof MovieAdapter.OnItemClicked)){
+            MovieAdapter.OnItemClicked listener = (MovieAdapter.OnItemClicked) context;
+            adapter.setOnItemClicked(listener);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        adapter.setOnItemClicked(null);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +113,14 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        LinearLayoutManager layout = new LinearLayoutManager(getContext());
+        layout.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(layout);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -91,7 +134,14 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsVi
     }
 
     @Override
-    public void showSimilarMovie(List<MovieModel> movieModels) {
+    public void setTitle(String title) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
+        toolbar.setTitle(title);
+        collapsingToolbarLayout.setTitle(title);
+    }
 
+    @Override
+    public void showSimilarMovie(List<MovieModel> movieModels) {
+        adapter.setMovies(movieModels);
     }
 }

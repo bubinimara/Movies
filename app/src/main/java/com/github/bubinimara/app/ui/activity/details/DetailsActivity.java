@@ -3,9 +3,6 @@ package com.github.bubinimara.app.ui.activity.details;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.Toolbar;
 
 import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.model.MovieModel;
@@ -16,20 +13,11 @@ import com.github.bubinimara.app.ui.fragment.details.MovieDetailsFragment;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailsActivity extends BaseActivity implements DetailsView, MovieAdapter.OnItemClicked {
 
     private static final String EXTRA_MOVIE_ID = "extra_movie_id";
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-
     @Inject
     DetailsPresenter presenter;
 
@@ -49,14 +37,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView, MovieA
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-         movieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, -1);
+        movieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, -1);
 
         getLifecycle().addObserver(new AutoLifecycleBinding<>(this,presenter));
-
-
 
     }
 
@@ -72,14 +55,10 @@ public class DetailsActivity extends BaseActivity implements DetailsView, MovieA
 
     @Override
     public void showDetails(MovieModel movieModel) {
-        getSupportActionBar().setTitle(movieModel.getTitle());
-        toolbar.setTitle(movieModel.getTitle());
-        collapsingToolbarLayout.setTitle(movieModel.getTitle());
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, MovieDetailsFragment.newInstance(movieModel.getId()))
+                .replace(R.id.container, MovieDetailsFragment.newInstance(movieModel.getId()))
                 .addToBackStack(null)
                 .commit();
-
     }
 }
