@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.github.bubinimara.app.MovieApp;
 import com.github.bubinimara.app.di.components.ActivityComponent;
 import com.github.bubinimara.app.di.components.ApplicationComponent;
-import com.github.bubinimara.app.di.components.DaggerActivityComponent;
-import com.github.bubinimara.app.di.modules.ActivityModule;
 import com.github.bubinimara.app.ui.IView;
 
 /**

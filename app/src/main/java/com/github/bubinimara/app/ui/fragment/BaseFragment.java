@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.github.bubinimara.app.ui.IView;
 import com.github.bubinimara.app.MovieApp;
 import com.github.bubinimara.app.di.components.ActivityComponent;
-import com.github.bubinimara.app.ui.activity.BaseActivity;
+import com.github.bubinimara.app.ui.IView;
 
 /**
  * Created by davide.

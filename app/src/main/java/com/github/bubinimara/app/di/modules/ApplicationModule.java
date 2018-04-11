@@ -4,18 +4,18 @@ import android.content.Context;
 
 import com.github.bubinimara.app.BuildConfig;
 import com.github.bubinimara.app.MovieApp;
+import com.github.bubinimara.app.data.ConfigurationRepositoryImpl;
 import com.github.bubinimara.app.data.LanguageRepositoryImpl;
 import com.github.bubinimara.app.data.MovieRepositoryImpl;
-import com.github.bubinimara.app.domain.repository.LanguageRepository;
-import com.github.bubinimara.app.domain.repository.MovieRepository;
-import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
-import com.github.bubinimara.app.ui.adapter.MovieAdapter;
-import com.github.bubinimara.app.data.ConfigurationRepositoryImpl;
-import com.github.bubinimara.app.domain.repository.ConfigurationRepository;
 import com.github.bubinimara.app.data.net.ApiClient;
 import com.github.bubinimara.app.data.net.ApiTmb;
+import com.github.bubinimara.app.domain.repository.ConfigurationRepository;
+import com.github.bubinimara.app.domain.repository.LanguageRepository;
+import com.github.bubinimara.app.domain.repository.MovieRepository;
 import com.github.bubinimara.app.domain.scheduler.BgScheduler;
 import com.github.bubinimara.app.domain.scheduler.UiScheduler;
+import com.github.bubinimara.app.ui.adapter.BigMovieAdapter;
+import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -88,15 +88,15 @@ public class ApplicationModule {
     @Singleton
     @Provides
     @Named("Home")
-    MovieAdapter provideMovieAdapterForHome(){
-        return new MovieAdapter();
+    BigMovieAdapter provideMovieAdapterForHome(){
+        return new BigMovieAdapter();
     }
 
     @Singleton
     @Provides
     @Named("Search")
-    MovieAdapter provideMovieAdapterForSearch(){
-        return new MovieAdapter();
+    BigMovieAdapter provideMovieAdapterForSearch(){
+        return new BigMovieAdapter();
     }
 
     @Provides

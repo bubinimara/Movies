@@ -13,15 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
+import com.github.bubinimara.app.ui.adapter.BaseAdapter;
 import com.github.bubinimara.app.ui.adapter.ImageMovieAdapter;
-import com.github.bubinimara.app.ui.adapter.MovieAdapter;
 import com.github.bubinimara.app.ui.fragment.BaseFragment;
 
 import java.util.List;
@@ -91,8 +89,8 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsVi
     public void onAttach(Context context) {
         getActivityComponent().inject(this);
         super.onAttach(context);
-        if((context instanceof MovieAdapter.OnItemClicked)){
-            MovieAdapter.OnItemClicked listener = (MovieAdapter.OnItemClicked) context;
+        if((context instanceof BaseAdapter.OnItemClicked)){
+            BaseAdapter.OnItemClicked listener = (BaseAdapter.OnItemClicked) context;
             adapter.setOnItemClicked(listener);
         }
     }
@@ -142,6 +140,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsVi
 
     @Override
     public void showSimilarMovie(List<MovieModel> movieModels) {
-        adapter.setMovies(movieModels);
+        adapter.addData(movieModels);
     }
 }

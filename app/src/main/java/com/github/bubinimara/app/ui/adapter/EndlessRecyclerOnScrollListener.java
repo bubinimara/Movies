@@ -17,13 +17,13 @@ class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
     private boolean loading = true; // True if we are still waiting for the last set of data to load.
     private int current_page = 1;
 
-    private MovieAdapter.OnLoadMore listener;
+    private BaseAdapter.OnLoadMore listener;
 
     public EndlessRecyclerOnScrollListener() {
 
     }
 
-    public void setListener(MovieAdapter.OnLoadMore listener) {
+    public void setListener(BaseAdapter.OnLoadMore listener) {
         this.listener = listener;
     }
 

@@ -1,7 +1,7 @@
 package com.github.bubinimara.app.ui.fragment.home;
 
-import com.github.bubinimara.app.ui.IView;
 import com.github.bubinimara.app.model.MovieModel;
+import com.github.bubinimara.app.ui.IView;
 
 import java.util.Collection;
 

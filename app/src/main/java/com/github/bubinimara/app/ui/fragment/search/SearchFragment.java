@@ -18,7 +18,8 @@ import android.widget.Toast;
 import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
-import com.github.bubinimara.app.ui.adapter.MovieAdapter;
+import com.github.bubinimara.app.ui.adapter.BaseAdapter;
+import com.github.bubinimara.app.ui.adapter.BigMovieAdapter;
 import com.github.bubinimara.app.ui.fragment.BaseFragment;
 import com.github.bubinimara.app.ui.widget.SimpleTextWatcher;
 import com.github.bubinimara.app.util.ButterKnifeUtil;
@@ -51,7 +52,7 @@ public class SearchFragment extends BaseFragment implements SearchView{
 
     @Inject
     @Named("Search")
-    MovieAdapter adapter;
+    BigMovieAdapter adapter;
 
     private TextWatcher textWatcher;
 
@@ -87,7 +88,9 @@ public class SearchFragment extends BaseFragment implements SearchView{
         unbinder = ButterKnife.bind(this, view);
 
         adapter.setOnLoadMore(this::onLoadMore);
-        adapter.setOnItemClicked(this::onItemClicked);
+        adapter.setOnItemClicked((BaseAdapter.OnItemClicked<MovieModel>) movieModel -> {
+
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -128,12 +131,12 @@ public class SearchFragment extends BaseFragment implements SearchView{
 
     @Override
     public void showEmptyMovies() {
-        adapter.removeAllMovies();
+        adapter.removeData();
     }
 
     @Override
     public void showMovies(List<MovieModel> movieModels) {
-        adapter.addMovies(movieModels);
+        adapter.addData(movieModels);
     }
 
 

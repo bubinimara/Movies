@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.bubinimara.app.R;
+import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
 import com.github.bubinimara.app.ui.activity.details.DetailsActivity;
-import com.github.bubinimara.app.ui.adapter.MovieAdapter;
+import com.github.bubinimara.app.ui.adapter.BigMovieAdapter;
 import com.github.bubinimara.app.ui.fragment.BaseFragment;
-import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.util.ButterKnifeUtil;
 
 import java.util.Collection;
@@ -40,7 +40,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Inject
     @Named("Home")
-    MovieAdapter adapter;
+    BigMovieAdapter adapter;
 
     @Inject
     HomePresenter presenter;
@@ -116,7 +116,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void showMovies(Collection<MovieModel> movies){
-        adapter.addMovies(movies);
+        adapter.addData(movies);
     }
 
     @Override

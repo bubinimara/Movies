@@ -8,14 +8,14 @@ import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
 import com.github.bubinimara.app.ui.activity.BaseActivity;
-import com.github.bubinimara.app.ui.adapter.MovieAdapter;
+import com.github.bubinimara.app.ui.adapter.BaseAdapter;
 import com.github.bubinimara.app.ui.fragment.details.MovieDetailsFragment;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends BaseActivity implements DetailsView, MovieAdapter.OnItemClicked {
+public class DetailsActivity extends BaseActivity implements DetailsView, BaseAdapter.OnItemClicked<MovieModel> {
 
     private static final String EXTRA_MOVIE_ID = "extra_movie_id";
     @Inject

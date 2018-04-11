@@ -9,11 +9,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
 import com.github.bubinimara.app.ui.activity.BaseActivity;
-import com.github.bubinimara.app.R;
-import com.github.bubinimara.app.di.components.DaggerActivityComponent;
-import com.github.bubinimara.app.di.modules.ActivityModule;
 import com.github.bubinimara.app.ui.fragment.home.HomeFragment;
 import com.github.bubinimara.app.ui.fragment.search.SearchFragment;
 

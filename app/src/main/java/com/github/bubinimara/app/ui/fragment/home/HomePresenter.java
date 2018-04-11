@@ -1,12 +1,12 @@
 package com.github.bubinimara.app.ui.fragment.home;
 
-import com.github.bubinimara.app.ui.BasePresenter;
 import com.github.bubinimara.app.domain.PageMovie;
 import com.github.bubinimara.app.domain.cases.GetConfiguration;
 import com.github.bubinimara.app.domain.cases.GetMostPopularMovie;
 import com.github.bubinimara.app.model.MovieModel;
 import com.github.bubinimara.app.model.mapper.MovieModelMapper;
 import com.github.bubinimara.app.rx.SimpleDisposableObserver;
+import com.github.bubinimara.app.ui.BasePresenter;
 
 import java.util.List;
 

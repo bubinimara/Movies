@@ -9,7 +9,6 @@ import com.github.bubinimara.app.ui.BasePresenter;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 

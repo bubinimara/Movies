@@ -4,9 +4,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.github.bubinimara.app.ui.BasePresenter;
-import com.github.bubinimara.app.ui.IView;
-
 /**
  * Created by davide.
  */
