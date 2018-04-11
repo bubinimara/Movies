@@ -1,6 +1,7 @@
 package com.github.bubinimara.app.ui.fragment.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -56,9 +57,14 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
+    public void onAttach(Context context) {
+        getActivityComponent().inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
 
         getLifecycle().addObserver(new AutoLifecycleBinding<>(this,presenter));
 

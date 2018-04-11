@@ -22,11 +22,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityComponent = DaggerActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(new ActivityModule())
-                .build();
-
         isRestored = savedInstanceState!=null;
     }
 
@@ -35,7 +30,16 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
     }
 
     protected ActivityComponent getActivityComponent(){
+        // TODO: Find differences between dagger declaration of component
+      /*  if(activityComponent == null){
+            activityComponent = DaggerActivityComponent.builder()
+                    .applicationComponent(getApplicationComponent())
+                    .activityModule(new ActivityModule())
+                    .build();
+        }
         return activityComponent;
+      */
+      return ((MovieApp) getApplication()).getActivityComponent();
     }
     @Override
     public boolean isRestored() {

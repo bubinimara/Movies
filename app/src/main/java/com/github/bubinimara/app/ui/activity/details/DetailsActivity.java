@@ -43,9 +43,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView, MovieA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         getActivityComponent().inject(this);
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);

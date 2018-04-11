@@ -40,8 +40,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
+        super.onCreate(savedInstanceState);
 
         AutoLifecycleBinding<MainView,MainPresenter> autoLifecycleBinding = new AutoLifecycleBinding<>(this,presenter);
         getLifecycle().addObserver(autoLifecycleBinding);

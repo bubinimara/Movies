@@ -1,6 +1,7 @@
 package com.github.bubinimara.app.ui.fragment.search;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -63,9 +64,13 @@ public class SearchFragment extends BaseFragment implements SearchView{
     }
 
     @Override
+    public void onAttach(Context context) {
+        getActivityComponent().inject(this);
+        super.onAttach(context);
+    }
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
         textWatcher = new MyTextWatcher();
         getLifecycle().addObserver(new AutoLifecycleBinding<>(this,presenter));
     }
