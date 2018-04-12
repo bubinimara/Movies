@@ -1,6 +1,8 @@
 package com.github.bubinimara.movies.domain.cases;
 
+import com.github.bubinimara.movies.domain.Language;
 import com.github.bubinimara.movies.domain.PageMovie;
+import com.github.bubinimara.movies.domain.repository.LanguageRepository;
 import com.github.bubinimara.movies.domain.repository.MovieRepository;
 
 import org.junit.After;
@@ -26,6 +28,9 @@ public class SearchForMoviesTest {
 
     @Mock
     private MovieRepository repository;
+
+    @Mock
+    private LanguageRepository languageRepository;
     @Mock
     private PageMovie pageMovie;
     @Mock
@@ -35,6 +40,7 @@ public class SearchForMoviesTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        Mockito.when(languageRepository.getLanguageInUse()).thenReturn(Observable.just(new Language("name","iso")));
         searchForMovies = new SearchForMovies(TestScheduler::new,TestScheduler::new,repository, languageRepository);
     }
 
@@ -90,7 +96,7 @@ public class SearchForMoviesTest {
     }
 
     private void mockRepositoryResponse(Observable<PageMovie> just) {
-        Mockito.when(repository.searchMovie(Mockito.anyString(), Mockito.anyInt()))
+        Mockito.when(repository.searchMovie(Mockito.anyString(),Mockito.anyString(), Mockito.anyInt()))
                 .thenReturn(just);
     }
 

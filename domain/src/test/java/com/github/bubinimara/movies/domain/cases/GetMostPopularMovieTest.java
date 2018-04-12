@@ -1,6 +1,8 @@
 package com.github.bubinimara.movies.domain.cases;
 
+import com.github.bubinimara.movies.domain.Language;
 import com.github.bubinimara.movies.domain.PageMovie;
+import com.github.bubinimara.movies.domain.repository.LanguageRepository;
 import com.github.bubinimara.movies.domain.repository.MovieRepository;
 
 import org.junit.Before;
@@ -26,6 +28,9 @@ public class GetMostPopularMovieTest {
     private MovieRepository repository;
 
     @Mock
+    private LanguageRepository languageRepository;
+
+    @Mock
     private PageMovie pageMovie;
 
     @Mock
@@ -36,6 +41,7 @@ public class GetMostPopularMovieTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        Mockito.when(languageRepository.getLanguageInUse()).thenReturn(Observable.just(new Language("name","iso")));
         getMostPopularMovie = new GetMostPopularMovie(TestScheduler::new,TestScheduler::new,repository, languageRepository);
     }
 
@@ -53,7 +59,7 @@ public class GetMostPopularMovieTest {
     }
 
     private void mockRepositoryResponse(Observable<PageMovie> just) {
-        Mockito.when(repository.getMostPopularMovies(1))
+        Mockito.when(repository.getMostPopularMovies(Mockito.anyString(),Mockito.anyInt()))
                 .thenReturn(just);
     }
 
