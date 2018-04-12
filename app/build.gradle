@@ -66,4 +66,8 @@ dependencies {
     /* modules */
     implementation project(path: ':domain')
     implementation project(path: ':data')
+
+    /* mockito */
+    testImplementation 'org.mockito:mockito-core:2.13.0'
+
 }
