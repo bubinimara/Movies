@@ -13,6 +13,7 @@ import com.github.bubinimara.app.R;
 import com.github.bubinimara.app.ui.AutoLifecycleBinding;
 import com.github.bubinimara.app.ui.activity.BaseActivity;
 import com.github.bubinimara.app.ui.fragment.home.HomeFragment;
+import com.github.bubinimara.app.ui.fragment.profile.ProfileFragment;
 import com.github.bubinimara.app.ui.fragment.search.SearchFragment;
 
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @interface Screens{
         int HOME = 0;
         int SEARCH = 1;
+        int PROFILE = 2;
     }
 
     @Inject
@@ -68,6 +70,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     @Override
+    public void showProfileScreen(){
+        viewPager.setCurrentItem(Screens.PROFILE);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
@@ -76,9 +83,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.navigation_search:
                 presenter.onNavigationSearch();
                 return true;
-            case R.id.navigation_notifications:
-                // TODO: to be replaced or removed
-                return false;
+            case R.id.navigation_profile:
+                presenter.onNavigationProfile();
+                return true;
         }
         return false;
     }
@@ -88,7 +95,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     }
     private static class ScreenAdapter extends FragmentStatePagerAdapter{
-        private static final int TOTAL_SCREEN = 2;
+        private static final int TOTAL_SCREEN = 3;
 
         public ScreenAdapter(FragmentManager fm) {
             super(fm);
@@ -101,6 +108,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     return HomeFragment.newInstance();
                 case Screens.SEARCH:
                     return SearchFragment.newInstance();
+                case Screens.PROFILE:
+                    return ProfileFragment.newInstance();
             }
             throw new RuntimeException("Invalid screen position");
         }

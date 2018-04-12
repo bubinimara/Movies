@@ -30,4 +30,8 @@ public class MainPresenter extends BasePresenter<MainView> {
     public void onNavigationSearch() {
         view.showSearchScreen();
     }
+
+    public void onNavigationProfile() {
+        view.showProfileScreen();
+    }
 }

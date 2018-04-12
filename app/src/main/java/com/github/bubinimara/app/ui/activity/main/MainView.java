@@ -9,4 +9,6 @@ import com.github.bubinimara.app.ui.IView;
 public interface MainView extends IView {
     void showHomeScreen();
     void showSearchScreen();
+
+    void showProfileScreen();
 }
