@@ -39,68 +39,68 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    Context provideContext(){
+    public Context provideContext(){
         return application;
     }
 
     @Singleton
     @Provides
-    ApiClient provideApiClient(){
+    public  ApiClient provideApiClient(){
         return new ApiClient(BuildConfig.TMDB_API_KEY);
     }
 
     @Singleton
     @Provides
-    ApiTmb provideApiTmb(ApiClient apiClient){
+    public ApiTmb provideApiTmb(ApiClient apiClient){
         return apiClient.getApiTmb();
     }
 
     @Singleton
     @Provides
-    MovieRepository provideMovieRepository(MovieRepositoryImpl repository){
+    public MovieRepository provideMovieRepository(MovieRepositoryImpl repository){
         return repository;
     }
 
 
     @Singleton
     @Provides
-    LanguageRepository provideLanguageRepository(LanguageRepositoryImpl repository){
+    public  LanguageRepository provideLanguageRepository(LanguageRepositoryImpl repository){
         return repository;
     }
 
     @Singleton
     @Provides
-    ConfigurationRepository configurationRepository(ConfigurationRepositoryImpl repository){
+    public ConfigurationRepository configurationRepository(ConfigurationRepositoryImpl repository){
         return repository;
     }
 
     @Provides
-    UiScheduler provideUiScheduler(){
+    public UiScheduler provideUiScheduler(){
         return AndroidSchedulers::mainThread;
     }
 
     @Singleton
     @Provides
-    BgScheduler provideBgScheduler(){
+    public BgScheduler provideBgScheduler(){
         return Schedulers::io;
     }
 
     @Singleton
     @Provides
     @Named("Home")
-    BigMovieAdapter provideMovieAdapterForHome(){
+    public BigMovieAdapter provideMovieAdapterForHome(){
         return new BigMovieAdapter();
     }
 
     @Singleton
     @Provides
     @Named("Search")
-    BigMovieAdapter provideMovieAdapterForSearch(){
+    public BigMovieAdapter provideMovieAdapterForSearch(){
         return new BigMovieAdapter();
     }
 
     @Provides
-    ImageMovieAdapter provideImageMovieAdapter(){
+    public ImageMovieAdapter provideImageMovieAdapter(){
         return new ImageMovieAdapter();
     }
 }

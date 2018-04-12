@@ -28,6 +28,11 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
     productFlavors {
     }
 }
@@ -41,7 +46,7 @@ dependencies {
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2-alpha1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     /* view binding */
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -67,7 +72,8 @@ dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
 
-    /* mockito */
+    /* testing */
     testImplementation 'org.mockito:mockito-core:2.13.0'
-
+    testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation 'com.android.support.test:monitor:1.0.2-alpha1'
 }
