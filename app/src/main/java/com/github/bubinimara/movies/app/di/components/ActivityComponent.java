@@ -6,6 +6,7 @@ import com.github.bubinimara.movies.app.ui.activity.details.DetailsActivity;
 import com.github.bubinimara.movies.app.ui.activity.main.MainActivity;
 import com.github.bubinimara.movies.app.ui.fragment.details.MovieDetailsFragment;
 import com.github.bubinimara.movies.app.ui.fragment.home.HomeFragment;
+import com.github.bubinimara.movies.app.ui.fragment.profile.ProfileFragment;
 import com.github.bubinimara.movies.app.ui.fragment.search.SearchFragment;
 
 import dagger.Component;
@@ -22,4 +23,6 @@ public interface ActivityComponent {
     void inject(DetailsActivity detailsActivity);
 
     void inject(MovieDetailsFragment movieDetailsFragment);
+
+    void inject(ProfileFragment profileFragment);
 }

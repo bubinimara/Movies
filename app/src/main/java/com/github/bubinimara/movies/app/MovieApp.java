@@ -13,7 +13,7 @@ import com.squareup.leakcanary.LeakCanary;
 /**
  * Created by davide.
  */
-
+// TODO: check model movie mapper use page and remove it - should use only movieModel
 public class MovieApp extends Application {
 
     private ApplicationComponent applicationComponent;
