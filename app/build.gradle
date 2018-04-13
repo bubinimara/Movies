@@ -45,9 +45,12 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2-alpha1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    testImplementation 'com.android.support.test:monitor:1.0.2-alpha1'
+
     /* view binding */
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -72,8 +75,10 @@ dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
 
-    /* testing */
+    /* mockito */
     testImplementation 'org.mockito:mockito-core:2.13.0'
+
+    /* robolectric */
+    testImplementation "org.robolectric:shadows-supportv4:3.6.1"
     testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'com.android.support.test:monitor:1.0.2-alpha1'
 }

@@ -24,6 +24,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     @Inject
     GetMostPopularMovie getMostPopularMovies;
+
     @Inject
     GetConfiguration getConfiguration;
 
@@ -52,10 +53,16 @@ public class HomePresenter extends BasePresenter<HomeView> {
     @Override
     public void viewHidden() {
         super.viewHidden();
-        clear();
+        compositeDisposable.clear();
     }
 
-    public Disposable buildDisposableForPageChange() {
+    @Override
+    public void unbindView() {
+        super.unbindView();
+        compositeDisposable.dispose();
+    }
+
+    private Disposable buildDisposableForPageChange() {
         return statePublishSubject
                 .distinct()
                 .concatMap(this::getNextPageOfMovies)
@@ -72,9 +79,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
                                 MovieModelMapper.transformConf(movie, configuration));
     }
 
-    private void clear() {
-        compositeDisposable.dispose();
-    }
 
     public void onLoadMore(int currentPage){
         statePublishSubject.onNext(currentPage+1);
