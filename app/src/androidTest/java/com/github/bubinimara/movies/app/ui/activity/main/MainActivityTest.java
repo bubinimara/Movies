@@ -46,7 +46,7 @@ public class MainActivityTest {
         onView(withId(R.id.navigation)).check(matches(isCompletelyDisplayed()));
 
         onView(withId(R.id.navigation_home)).perform(click());
-        onView(allOf(withText(R.string.home_most_popular))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.home_title),withText(R.string.home_most_popular))).check(matches(isDisplayed()));
 
         onView(withId(R.id.navigation_profile)).perform(click());
         onView(allOf(withId(R.id.btn_login),withText(R.string.btn_login))).check(matches(isDisplayed()));
