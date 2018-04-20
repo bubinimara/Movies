@@ -1,17 +1,18 @@
 apply plugin: 'java-library'
 
+sourceCompatibility = versions.java
+targetCompatibility = versions.java
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     /* rx */
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+    implementation deps.rxjava
 
     /* inject */
-    implementation 'javax.inject:javax.inject:1'
+    implementation deps.javax
     
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.13.0'
+    testImplementation deps.junit
+    testImplementation deps.mockito.core
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
