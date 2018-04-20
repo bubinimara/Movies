@@ -55,24 +55,6 @@ public class ApplicationModule {
         return apiClient.getApiTmb();
     }
 
-    @Singleton
-    @Provides
-    public MovieRepository provideMovieRepository(MovieRepositoryImpl repository){
-        return repository;
-    }
-
-
-    @Singleton
-    @Provides
-    public  LanguageRepository provideLanguageRepository(LanguageRepositoryImpl repository){
-        return repository;
-    }
-
-    @Singleton
-    @Provides
-    public ConfigurationRepository configurationRepository(ConfigurationRepositoryImpl repository){
-        return repository;
-    }
 
     @Provides
     public UiScheduler provideUiScheduler(){
