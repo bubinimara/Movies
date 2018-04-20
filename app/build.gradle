@@ -8,24 +8,29 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "com.github.bubinimara.movies.app.MockAppTestRunner"
 
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-        buildTypes.each {
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            def TMDB_API_KEY = properties.getProperty('TMDB_API_KEY')
-            //it.buildConfigField("String", "TMDB_API_KEY", "\"" + TMDB_API_KEY +"\"")
-            it.buildConfigField "String", "TMDB_API_KEY", TMDB_API_KEY
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
         }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def TMDB_API_KEY = properties.getProperty('TMDB_API_KEY')
+        it.buildConfigField "String", "TMDB_API_KEY", TMDB_API_KEY
+    }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
