@@ -49,7 +49,10 @@ public class MovieModelMapper {
             return null;
         }
         Configuration.Image images = configuration.getImages();
-        if(images == null || images.getPoster_sizes().isEmpty()){
+        if(images == null){
+            return null;
+        }
+        if(images.getPoster_sizes() == null || images.getPoster_sizes().isEmpty()){
             return null;
         }
         if(movie.getPosterPath() == null || movie.getPosterPath().isEmpty()){
