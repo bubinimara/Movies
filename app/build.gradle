@@ -59,13 +59,14 @@ dependencies {
     implementation deps.support.constraintlayout
     implementation deps.support.vectordrawable
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     androidTestImplementation deps.support.annotations
     testImplementation deps.junit
     testImplementation deps.support.test.monitor
-    androidTestImplementation (deps.support.test.runner){
+    androidTestImplementation(deps.support.test.runner) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation (deps.support.test.espresso){
+    androidTestImplementation(deps.support.test.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
@@ -76,7 +77,6 @@ dependencies {
     /* rx */
     implementation deps.rxjava
     implementation deps.rxandroid
-
 
     /* retrofit */
     implementation deps.retrofit.retrofit
@@ -95,7 +95,6 @@ dependencies {
     /* leak detection */
     debugImplementation deps.leakcanary.leakcanary
     releaseImplementation deps.leakcanary.leakcanarynoop
-
 
     /* mockito */
     testImplementation deps.mockito.core
