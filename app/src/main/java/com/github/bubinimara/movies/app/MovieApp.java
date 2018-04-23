@@ -76,9 +76,4 @@ public class MovieApp extends Application {
         return activityComponent;
     }
 
-
-    @VisibleForTesting
-    void setApplicationComponent(ApplicationComponent applicationComponent) {
-        this.applicationComponent = applicationComponent;
-    }
 }
