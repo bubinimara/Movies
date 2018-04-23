@@ -7,7 +7,7 @@ buildscript {
             'compileSdk': 26,
             'buildTools': '27.0.3',
 
-            'supportLibrary': '26.1.0',
+            'supportLibrary': '27.1.1',
     ]
 
     ext.deps = [
