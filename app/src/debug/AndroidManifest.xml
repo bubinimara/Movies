@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <application>
+    <application
+        android:testOnly="false">
         <activity android:name="com.github.bubinimara.movies.app.debug.EmptyActivity"></activity>
     </application>
 </manifest>
