@@ -10,7 +10,6 @@ import com.github.bubinimara.movies.BuildConfig;
 import com.github.bubinimara.movies.app.FakeMovieApp;
 import com.github.bubinimara.movies.app.debug.EmptyActivity;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
