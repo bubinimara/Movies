@@ -36,7 +36,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
     }
 
     @Override
-    public void onBindViewHolder(Holder<T> holder, int position) {
+    public void onBindViewHolder(@NonNull Holder<T> holder, int position) {
         holder.set(data.get(position));
     }
 
@@ -45,8 +45,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
         return layoutInflater.inflate(resId,parent,false);
     }
 
+    @NonNull
     @Override
-    public final Holder<T> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final Holder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Holder<T> holder = createHolder(parent,viewType);
         holder.setOnItemClicked(onItemClicked);
         return holder;
@@ -55,19 +56,19 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
     abstract Holder<T> createHolder(ViewGroup parent, int viewType);
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.removeOnScrollListener(scrollListener);
         super.onDetachedFromRecyclerView(recyclerView);
     }
 
     @Override
-    public void onBindViewHolder(Holder<T> holder, int position, List<Object> payloads) {
+    public void onBindViewHolder(@NonNull Holder<T> holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
         holder.set(data.get(position));
     }
