@@ -106,32 +106,14 @@ dependencies {
     testImplementation deps.robolectric.shadows
 }
 
-/*
-task androidSpoonTest(dependsOn:assembleAndroidTest,type:JavaExec){
-    doFirst {
-        logger.info('Executing androidSpoonTest:')
-        println debugAndroidTest.outputFile
-    }
-    main="-jar"
-    args = [
-            "/home/davide/git/Movies/app/spoon/spoon-runner-1.7.1-jar-with-dependencies.jar",
-            "--apk","",
-            "--test-apk",""
-
-    ]
-}
-*/
-
 task androidSpoonTest(){
 
 }
 android {
     applicationVariants.all{ variant ->
-        println('VARIANT:' + variant.name)
         if(variant.buildType.name == "debug"){
             def apk = variant.outputs[0].outputFile
             testVariants.all { testVariant ->
-                println('TESTVARIANT:')
                 Properties properties = new Properties()
                 properties.load(project.rootProject.file('local.properties').newDataInputStream())
                 def sdk = properties.getProperty('sdk.dir')

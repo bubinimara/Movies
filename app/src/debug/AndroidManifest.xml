@@ -1,8 +1,10 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:testOnly="false">
-        <activity android:name="com.github.bubinimara.movies.app.debug.EmptyActivity"></activity>
+        <activity android:name="com.github.bubinimara.movies.app.debug.EmptyActivity" />
     </application>
 </manifest>

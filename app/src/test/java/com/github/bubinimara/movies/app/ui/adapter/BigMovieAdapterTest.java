@@ -1,6 +1,5 @@
 package com.github.bubinimara.movies.app.ui.adapter;
 
-import android.content.res.Resources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,8 +33,6 @@ import static org.robolectric.Shadows.shadowOf;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,application = FakeMovieApp.class)
 public class BigMovieAdapterTest {
-
-    private final Resources resources = RuntimeEnvironment.application.getResources();
 
     private BigMovieAdapter adapter;
     private RecyclerView recyclerView;
