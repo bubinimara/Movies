@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".app.ui.activity.main.MainActivity">
 
-    <android.support.v4.view.ViewPager
+    <com.github.bubinimara.movies.app.ui.widget.SwipeableViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
