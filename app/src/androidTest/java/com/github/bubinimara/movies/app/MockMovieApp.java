@@ -24,6 +24,10 @@ public class MockMovieApp extends MovieApp {
         this.applicationModule = applicationModule;
     }
 
+    public void clearApplicationDataModule(){
+        this.applicationModule = null;
+        this.isDiInitialized = false;
+    }
 
     @Override
     protected void installLeakCanary() { }

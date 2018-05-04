@@ -13,22 +13,11 @@ import java.util.List;
 
 public class MovieModelMapper {
 
-    // todo: to rename
-    public static List<MovieModel> transformConf(List<Movie> movieEntities,Configuration configuration) {
+    public static List<MovieModel> transform(List<Movie> movieEntities, Configuration configuration) {
         List<MovieModel> movies = new ArrayList<>(movieEntities.size());
         for (int i = 0;i<movieEntities.size();i++) {
             Movie e = movieEntities.get(i);
             movies.add(transform(e,configuration));
-
-        }
-        return movies;
-    }
-    // todo: to remove
-    public static List<MovieModel> transform(List<Movie> movieEntities) {
-        List<MovieModel> movies = new ArrayList<>(movieEntities.size());
-        for (int i = 0;i<movieEntities.size();i++) {
-            Movie e = movieEntities.get(i);
-            movies.add(transform(e,null));
 
         }
         return movies;
@@ -64,12 +53,12 @@ public class MovieModelMapper {
     }
 
     private static String getFormattedDate(String release_date) {
-        if(release_date.isEmpty()){
-            return release_date;
+        if(release_date == null || release_date.isEmpty()){
+            return "";
         }
         int indexOf = release_date.indexOf('-');
         if(indexOf <0 || indexOf > release_date.length()){
-            return release_date;
+            return "";
         }
         return release_date.substring(0, indexOf);
     }

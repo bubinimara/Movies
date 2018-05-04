@@ -1,11 +1,11 @@
 package com.github.bubinimara.movies.app.ui.activity.main;
 
 import android.support.test.filters.SmallTest;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.github.bubinimara.movies.R;
-import com.github.bubinimara.movies.app.rules.EmptyDataModuleRule;
+import com.github.bubinimara.movies.app.rules.BaseActivityTestRule;
+import com.github.bubinimara.movies.app.rules.module.EmptyApplicationDataModule;
 import com.squareup.spoon.Spoon;
 
 import org.junit.Before;
@@ -33,15 +33,11 @@ import static org.hamcrest.core.AllOf.allOf;
 public class MainActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class,false,false);
-
-
-    @Rule
-    public EmptyDataModuleRule dataModuleRule = new EmptyDataModuleRule();
+    public BaseActivityTestRule<MainActivity> mActivityRule = new BaseActivityTestRule<>(MainActivity.class);
 
     @Before
     public void setUp(){
-        mActivityRule.launchActivity(null);
+        mActivityRule.launchActivity(null,new EmptyApplicationDataModule());
     }
 
     @Test

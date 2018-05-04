@@ -70,6 +70,9 @@ dependencies {
     androidTestImplementation(deps.support.test.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    androidTestImplementation(deps.support.test.espressoContrib) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     /* view binding */
     implementation deps.butterknife

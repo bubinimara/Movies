@@ -121,6 +121,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
         adapter.addData(movies);
     }
 
+    public void showEmptyMovies(){
+        adapter.removeData();
+    }
     @Override
     public void showError(int type) {
         Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();

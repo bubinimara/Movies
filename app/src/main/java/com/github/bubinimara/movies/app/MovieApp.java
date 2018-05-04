@@ -42,6 +42,7 @@ public class MovieApp extends Application {
     }
 
     protected void initDI(){
+
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(buildApplicationModule())
                 .applicationDataModule(buildApplicationDataModule())
@@ -49,6 +50,8 @@ public class MovieApp extends Application {
         activityComponent = DaggerActivityComponent.builder()
                 .applicationComponent(applicationComponent)
                 .build();
+
+        isDiInitialized = true;
     }
 
 

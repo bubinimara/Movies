@@ -76,7 +76,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
                         getMostPopularMovies.toObservable(new GetMostPopularMovie.Params(page))
                         .map(PageMovie::getMovies),
                         (configuration, movie) ->
-                                MovieModelMapper.transformConf(movie, configuration));
+                                MovieModelMapper.transform(movie, configuration));
     }
 
 
