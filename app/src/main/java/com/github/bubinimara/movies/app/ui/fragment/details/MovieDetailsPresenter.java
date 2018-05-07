@@ -53,7 +53,7 @@ public class MovieDetailsPresenter extends BasePresenter<MovieDetailsView>{
         return Observable.zip(
                 getConfiguration.toObservable(null),
                 getSimilarMovies.toObservable(new GetSimilarMovies.Params(movieId,1)),
-                ((configuration, pageMovie) -> MovieModelMapper.transformConf(pageMovie.getMovies(),configuration)))
+                ((configuration, pageMovie) -> MovieModelMapper.transform(pageMovie.getMovies(),configuration)))
                 .subscribeWith(new SimilarDisposable());
     }
 

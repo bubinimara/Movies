@@ -86,7 +86,7 @@ public class SearchPresenter extends BasePresenter<SearchView> {
                 getConfiguration.toObservable(new GetConfiguration.Params()),
                 searchForMovies.toObservable(new SearchForMovies.Params(state.search,state.page))
                         .map(PageMovie::getMovies),
-                (configuration,movies)->MovieModelMapper.transformConf(movies,configuration))
+                (configuration,movies)->MovieModelMapper.transform(movies,configuration))
 
                 .subscribeWith(observer);
     }

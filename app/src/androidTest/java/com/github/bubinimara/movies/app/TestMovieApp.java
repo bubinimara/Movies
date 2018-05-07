@@ -7,7 +7,7 @@ import com.github.bubinimara.movies.app.di.modules.ApplicationDataModule;
 /**
  * Created by davide.
  */
-public class MockMovieApp extends MovieApp {
+public class TestMovieApp extends MovieApp {
 
     private ApplicationDataModule applicationModule;
 
@@ -24,6 +24,10 @@ public class MockMovieApp extends MovieApp {
         this.applicationModule = applicationModule;
     }
 
+    public void clearApplicationDataModule(){
+        this.applicationModule = null;
+        this.isDiInitialized = false;
+    }
 
     @Override
     protected void installLeakCanary() { }
