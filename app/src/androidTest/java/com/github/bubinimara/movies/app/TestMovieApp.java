@@ -7,7 +7,7 @@ import com.github.bubinimara.movies.app.di.modules.ApplicationDataModule;
 /**
  * Created by davide.
  */
-public class MockMovieApp extends MovieApp {
+public class TestMovieApp extends MovieApp {
 
     private ApplicationDataModule applicationModule;
 

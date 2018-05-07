@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
-import com.github.bubinimara.movies.app.MockMovieApp;
+import com.github.bubinimara.movies.app.TestMovieApp;
 import com.github.bubinimara.movies.app.rules.module.TestApplicationDataModule;
 
 /**
@@ -25,7 +25,6 @@ public class BaseActivityTestRule<T extends Activity> extends ActivityTestRule<T
         super(activityClass, initialTouchMode,launchActyivity);
         this.mInstrumentation = InstrumentationRegistry.getInstrumentation();
     }
-
 
     public T launchActivity(@Nullable Intent startIntent, TestApplicationDataModule applicationDataModule) {
         this.applicationDataModule = applicationDataModule;
@@ -47,8 +46,8 @@ public class BaseActivityTestRule<T extends Activity> extends ActivityTestRule<T
         getApp().clearApplicationDataModule();
     }
 
-    protected MockMovieApp getApp() {
-        return (MockMovieApp) mInstrumentation.getTargetContext().getApplicationContext();
+    protected TestMovieApp getApp() {
+        return (TestMovieApp) mInstrumentation.getTargetContext().getApplicationContext();
     }
 
 }
