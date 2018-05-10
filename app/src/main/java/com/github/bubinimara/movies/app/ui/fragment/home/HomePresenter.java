@@ -81,6 +81,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
 
     public void onLoadMore(int currentPage){
+        view.showProgress();
         statePublishSubject.onNext(currentPage+1);
     }
 
@@ -93,11 +94,13 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
         @Override
         public void onNext(List<MovieModel> movies) {
+            view.hideProgress();
             view.showMovies(movies);
         }
 
         @Override
         public void onError(Throwable e) {
+            view.hideProgress();
             view.showError(HomeView.Errors.UNKNOWN);
             e.printStackTrace();
         }

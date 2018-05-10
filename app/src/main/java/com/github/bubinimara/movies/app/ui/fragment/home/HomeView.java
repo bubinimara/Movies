@@ -14,7 +14,12 @@ public interface HomeView extends IView {
     @interface Errors{
         int UNKNOWN = 0;
     }
+
     void showMovies(Collection<MovieModel> movies);
     void showDetailsView(MovieModel movieModel);
+
+    void showProgress();
+    void hideProgress();
+
     void showError(@Errors int type);
 }

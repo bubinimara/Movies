@@ -35,8 +35,12 @@ import butterknife.Unbinder;
  */
 public class HomeFragment extends BaseFragment implements HomeView {
 
+    private static final String STATE_PROGRESSBAR_VISIBILITY = "STATE_PROGRESSBAR_VISIBILITY";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.progressBar)
+    View progressBar;
 
     @Inject
     @Named("Home")
@@ -101,12 +105,22 @@ public class HomeFragment extends BaseFragment implements HomeView {
         //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        restoreView(savedInstanceState);
+    }
+
+    private void restoreView(Bundle state) {
+        if(state == null){
+            return;
+        }
+        progressBar.setVisibility(state.getInt(STATE_PROGRESSBAR_VISIBILITY));
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_PROGRESSBAR_VISIBILITY,progressBar.getVisibility());
         super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -124,6 +138,17 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public void showEmptyMovies(){
         adapter.removeData();
     }
+
+    @Override
+    public void showProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
     @Override
     public void showError(int type) {
         Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
