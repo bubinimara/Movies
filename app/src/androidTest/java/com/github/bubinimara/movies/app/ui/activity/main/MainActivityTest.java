@@ -48,7 +48,7 @@ public class MainActivityTest {
 
 
         onView(withId(R.id.navigation_home)).perform(click());
-        onView(allOf(withId(R.id.home_title),withText(R.string.home_most_popular))).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.home_most_popular)).check(matches(isCompletelyDisplayed()));
         Spoon.screenshot(mActivityRule.getActivity(), "home_screen");
 
         onView(withId(R.id.navigation_profile)).perform(click());
@@ -64,11 +64,11 @@ public class MainActivityTest {
     @Test
     public void is_swipe_disabled() {
         onView(withId(R.id.navigation_home)).perform(click());
-        onView(allOf(withId(R.id.home_title),withText(R.string.home_most_popular))).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.home_most_popular)).check(matches(isCompletelyDisplayed()));
 
         onView(withId(R.id.viewPager)).perform(swipeLeft());
-        onView(allOf(withId(R.id.home_title),withText(R.string.home_most_popular))).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.home_most_popular)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.viewPager)).perform(swipeRight());
-        onView(allOf(withId(R.id.home_title),withText(R.string.home_most_popular))).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.home_most_popular)).check(matches(isCompletelyDisplayed()));
     }
 }
