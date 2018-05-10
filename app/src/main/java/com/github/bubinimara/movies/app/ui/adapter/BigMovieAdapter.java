@@ -1,5 +1,6 @@
 package com.github.bubinimara.movies.app.ui.adapter;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,18 +58,22 @@ public class BigMovieAdapter extends BaseAdapter<MovieModel> {
             }
 
             if(movie.haveImageUrl()) {
-                RequestOptions requestOptions = new RequestOptions()
-                        .placeholder(R.drawable.ic_image_placeholder)
-                        .error(R.drawable.ic_image_placeholder);
-
                 Glide.with(itemView.getContext())
                         .load(movie.getImageUrl())
-                        .apply(requestOptions)
+                        .apply(getRequestOptions())
                         .into(image)
                         ;
             }else{
                 image.setImageResource(R.drawable.ic_image_placeholder);
             }
+        }
+
+        @NonNull
+        private RequestOptions getRequestOptions() {
+            return new RequestOptions()
+                                .centerCrop()
+                                .placeholder(R.drawable.ic_image_placeholder)
+                                .error(R.drawable.ic_image_placeholder);
         }
     }
 

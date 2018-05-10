@@ -62,7 +62,7 @@ public class BigMovieAdapterTest {
         assertEquals(holder.title.getText(),"title");
         assertEquals(holder.overview.getText(),"overview");
         assertEquals(holder.year.getText(),"10");
-        assertNull(holder.image.getDrawable()); // should be show a placeholder
+        assertNotNull(holder.image.getDrawable()); // should be show a placeholder
 
         assertEquals(holder.title.getVisibility(), View.VISIBLE);
         assertEquals(holder.overview.getVisibility(), View.VISIBLE);
