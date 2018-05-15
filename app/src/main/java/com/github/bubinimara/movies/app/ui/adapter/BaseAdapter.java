@@ -37,7 +37,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
 
     @Override
     public void onBindViewHolder(@NonNull Holder<T> holder, int position) {
-        holder.set(data.get(position));
+        holder.set(getItem(position));
+    }
+
+    public T getItem(int position) {
+        return data.get(position);
     }
 
     protected View inflateViewFromResource(ViewGroup parent,@LayoutRes int resId){
@@ -70,7 +74,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
     @Override
     public void onBindViewHolder(@NonNull Holder<T> holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
-        holder.set(data.get(position));
+        holder.set(getItem(position));
     }
 
     @Override

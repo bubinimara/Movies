@@ -62,7 +62,9 @@ buildscript {
             'robolectric':[
                     'robolectric':'org.robolectric:robolectric:3.8',
                     'shadows':'org.robolectric:shadows-supportv4:3.6.1',
-            ]
+            ],
+
+            'loaderviewlibrary':'com.elyeproj.libraries:loaderviewlibrary:1.4.1'
 
     ]
 

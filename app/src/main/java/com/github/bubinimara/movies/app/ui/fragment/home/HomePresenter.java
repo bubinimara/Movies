@@ -90,8 +90,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
 
     public void onLoadMore(){
-        view.showProgress();
         int currentPage = view.getCurrentPage();
+        if(currentPage==0){
+            view.showProgress();
+        }
         statePublishSubject.onNext(currentPage+1);
     }
 

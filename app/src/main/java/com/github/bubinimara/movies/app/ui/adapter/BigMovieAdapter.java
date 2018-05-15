@@ -31,6 +31,25 @@ public class BigMovieAdapter extends BaseAdapter<MovieModel> {
         return new MyHolder(inflateViewFromResource(parent,R.layout.row_item_movie));
     }
 
+    @Override
+    public int getItemCount() {
+        int itemCount = super.getItemCount();
+        return (itemCount>0)? itemCount+1 : itemCount;
+    }
+
+    @Override
+    public MovieModel getItem(int position) {
+        return isLastItem(position) ? null : super.getItem(position);
+    }
+
+    private boolean isLastItem(int position){
+        return position == getItemCount()-1;
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return isLastItem(position)?1:0;
+    }
+
     public static class MyHolder extends Holder<MovieModel>{
         @BindView(R.id.movie_title)
         TextView title;
@@ -48,6 +67,8 @@ public class BigMovieAdapter extends BaseAdapter<MovieModel> {
 
         @Override
         public void render(MovieModel movie) {
+            if(movie == null)
+                return;
             title.setText(movie.getTitle());
             overview.setText(movie.getOverview());
             if(TextUtils.isEmpty(movie.getYear())){
