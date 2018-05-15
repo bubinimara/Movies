@@ -179,7 +179,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         return progressBar.getVisibility() == View.VISIBLE;
     }
     @Override
-    public void showError(int type) {
+    public void showError(@Errors int type) {
         recyclerView.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
     }
