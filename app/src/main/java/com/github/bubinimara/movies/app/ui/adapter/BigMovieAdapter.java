@@ -1,6 +1,8 @@
 package com.github.bubinimara.movies.app.ui.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.app.model.MovieModel;
 
@@ -79,14 +85,32 @@ public class BigMovieAdapter extends BaseAdapter<MovieModel> {
             }
 
             if(movie.haveImageUrl()) {
+                image.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
                         .load(movie.getImageUrl())
+                        .listener(getRequestListener())
                         .apply(getRequestOptions())
                         .into(image)
                         ;
             }else{
-                image.setImageResource(R.drawable.ic_image_placeholder);
+                image.setVisibility(View.GONE);
             }
+        }
+
+        @NonNull
+        private RequestListener<Drawable> getRequestListener() {
+            return new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    image.setVisibility(View.GONE);
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    return false;
+                }
+            };
         }
 
         @NonNull
