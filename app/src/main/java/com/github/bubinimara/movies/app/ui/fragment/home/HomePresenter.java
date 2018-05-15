@@ -47,7 +47,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     private void initialize() {
         registerDisposable();
         if(!view.isRestored() || view.isLoading()){
-            onLoadMore(view.getCurrentPage());
+            onLoadMore();
         }
     }
 
@@ -89,8 +89,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
 
-    public void onLoadMore(int currentPage){
+    public void onLoadMore(){
         view.showProgress();
+        int currentPage = view.getCurrentPage();
         statePublishSubject.onNext(currentPage+1);
     }
 
@@ -98,10 +99,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
         view.showDetailsView(movieModel);
     }
 
-    public void onRetry(int currentPage) {
+    public void onRetry() {
         view.hideError();
         registerDisposable();
-        onLoadMore(currentPage);
+        onLoadMore();
     }
 
     class ListMovieDisposable extends SimpleDisposableObserver<List<MovieModel>>{

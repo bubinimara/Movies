@@ -89,7 +89,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     private void onLoadMoreItem(int currentPage) {
-        presenter.onLoadMore(currentPage);
+        presenter.onLoadMore();
     }
 
     private void onRowItemClicked(MovieModel movieModel) {
@@ -122,7 +122,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
      */
     private void initializeStatePresenter(){
         if(!isRestored() || isLoading()){
-            presenter.onLoadMore(getCurrentPage());
+            presenter.onLoadMore();
         }
     }
 
@@ -192,7 +192,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @OnClick(R.id.errorView)
     public void onRetryClicked(){
-        presenter.onRetry(adapter.getCurrentPage());
+        presenter.onRetry();
     }
     @Override
     public void showDetailsView(MovieModel movieModel) {
