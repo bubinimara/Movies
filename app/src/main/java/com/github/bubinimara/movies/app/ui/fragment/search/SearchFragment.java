@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.app.model.MovieModel;
 import com.github.bubinimara.movies.app.ui.AutoLifecycleBinding;
+import com.github.bubinimara.movies.app.ui.activity.details.DetailsActivity;
 import com.github.bubinimara.movies.app.ui.adapter.BaseAdapter;
 import com.github.bubinimara.movies.app.ui.adapter.BigMovieAdapter;
 import com.github.bubinimara.movies.app.ui.fragment.BaseFragment;
@@ -38,11 +38,13 @@ import butterknife.Unbinder;
  */
 public class SearchFragment extends BaseFragment implements SearchView{
 
-    private static final String TAG = SearchFragment.class.getSimpleName();
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.search_text)
     EditText editTextSearch;
+
+    @BindView(R.id.errorView)
+    View errorView;
 
     @Inject
     SearchPresenter presenter;
@@ -126,7 +128,7 @@ public class SearchFragment extends BaseFragment implements SearchView{
     }
 
     public void onLoadMore(int page) {
-        presenter.onViewStateChange();
+        onViewStateChanged();
     }
 
     @Override
@@ -142,15 +144,31 @@ public class SearchFragment extends BaseFragment implements SearchView{
 
     @Override
     public void showError(int error) {
-        // TODO: get string from error type
-        Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
+        recyclerView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideError() {
+        recyclerView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showDetailsView(MovieModel movieModel) {
+        DetailsActivity.launchActivity(getActivity(),movieModel.getId());
+    }
+
+    public void onViewStateChanged() {
+        presenter.onViewStateChange();
     }
 
     class MyTextWatcher extends SimpleTextWatcher {
         @Override
         public void afterTextChanged(Editable s) {
-            presenter.onViewStateChange();
+            onViewStateChanged();
         }
+
     }
 
 }

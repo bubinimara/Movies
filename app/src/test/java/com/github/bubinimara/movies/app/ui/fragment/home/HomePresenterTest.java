@@ -128,6 +128,7 @@ public class HomePresenterTest {
 
         presenter.viewHidden();
         publishSubject.onNext(pageMovie);
+        //TODO: annotate ui thread in methods
         //presenter.onLoadMore(); // <- this came from UI thread ... annotate it
 
         Mockito.verifyNoMoreInteractions(view);
