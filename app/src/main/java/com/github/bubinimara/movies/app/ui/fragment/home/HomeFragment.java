@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.bubinimara.movies.R;
 import com.github.bubinimara.movies.app.model.MovieModel;
@@ -28,6 +27,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -36,11 +36,16 @@ import butterknife.Unbinder;
 public class HomeFragment extends BaseFragment implements HomeView {
 
     private static final String STATE_PROGRESSBAR_VISIBILITY = "STATE_PROGRESSBAR_VISIBILITY";
+    private static final String STATE_ERRORVIEW_VISIBILITY = "STATE_ERRORVIEW_VISIBILITY";
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @BindView(R.id.progressBar)
     View progressBar;
+
+    @BindView(R.id.errorView)
+    View errorView;
 
     @Inject
     @Named("Home")
@@ -108,17 +113,32 @@ public class HomeFragment extends BaseFragment implements HomeView {
         restoreView(savedInstanceState);
     }
 
+
+    /**
+     * Remove from view to make it passive and put all logic inside the presenter ... but
+     * The presenter initialization seams more clear here !
+     *
+     * 2 - presenter.initialize(isRestored, isLoading, currentPage, .... )
+     */
+    private void initializeStatePresenter(){
+        if(!isRestored() || isLoading()){
+            presenter.onLoadMore(getCurrentPage());
+        }
+    }
+
     private void restoreView(Bundle state) {
         if(state == null){
             return;
         }
         progressBar.setVisibility(state.getInt(STATE_PROGRESSBAR_VISIBILITY));
+        errorView.setVisibility(state.getInt(STATE_ERRORVIEW_VISIBILITY));
     }
 
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt(STATE_PROGRESSBAR_VISIBILITY,progressBar.getVisibility());
+        outState.putInt(STATE_ERRORVIEW_VISIBILITY,errorView.getVisibility());
         super.onSaveInstanceState(outState);
 
     }
@@ -128,6 +148,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
         super.onDestroyView();
         recyclerView.setAdapter(null);
         ButterKnifeUtil.safeUnbind(unbinder);
+    }
+
+    @Override
+    public int getCurrentPage() {
+        return adapter.getCurrentPage();
     }
 
     @Override
@@ -150,10 +175,25 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
+    public boolean isLoading(){
+        return progressBar.getVisibility() == View.VISIBLE;
+    }
+    @Override
     public void showError(int type) {
-        Toast.makeText(getContext(),R.string.unknown_error_msg,Toast.LENGTH_SHORT).show();
+        recyclerView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void hideError(){
+        recyclerView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.errorView)
+    public void onRetryClicked(){
+        presenter.onRetry(adapter.getCurrentPage());
+    }
     @Override
     public void showDetailsView(MovieModel movieModel) {
         DetailsActivity.launchActivity(getActivity(),movieModel.getId());

@@ -1,12 +1,12 @@
 package com.github.bubinimara.movies.app.ui.fragment.home;
 
-import com.github.bubinimara.movies.domain.PageMovie;
-import com.github.bubinimara.movies.domain.cases.GetConfiguration;
-import com.github.bubinimara.movies.domain.cases.GetMostPopularMovie;
 import com.github.bubinimara.movies.app.model.MovieModel;
 import com.github.bubinimara.movies.app.model.mapper.MovieModelMapper;
 import com.github.bubinimara.movies.app.rx.SimpleDisposableObserver;
 import com.github.bubinimara.movies.app.ui.BasePresenter;
+import com.github.bubinimara.movies.domain.PageMovie;
+import com.github.bubinimara.movies.domain.cases.GetConfiguration;
+import com.github.bubinimara.movies.domain.cases.GetMostPopularMovie;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     private final PublishSubject<Integer> statePublishSubject;
     private final CompositeDisposable compositeDisposable;
+    private Disposable disposable;
 
     @Inject
     public HomePresenter() {
@@ -44,10 +45,18 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     private void initialize() {
-        compositeDisposable.add(buildDisposableForPageChange());
-        if(!view.isRestored()){
-            onLoadMore(0);
+        registerDisposable();
+        if(!view.isRestored() || view.isLoading()){
+            onLoadMore(view.getCurrentPage());
         }
+    }
+
+    private void registerDisposable(){
+        if(disposable!=null){
+            compositeDisposable.remove(disposable);
+        }
+        disposable = buildDisposableForPageChange();
+        compositeDisposable.add(disposable);
     }
 
     @Override
@@ -89,6 +98,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
         view.showDetailsView(movieModel);
     }
 
+    public void onRetry(int currentPage) {
+        view.hideError();
+        registerDisposable();
+        onLoadMore(currentPage);
+    }
 
     class ListMovieDisposable extends SimpleDisposableObserver<List<MovieModel>>{
 
@@ -102,7 +116,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
         public void onError(Throwable e) {
             view.hideProgress();
             view.showError(HomeView.Errors.UNKNOWN);
-            e.printStackTrace();
         }
 
     }
