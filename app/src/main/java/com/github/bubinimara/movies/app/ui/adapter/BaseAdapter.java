@@ -84,10 +84,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
 
     public void setData(Collection<T> collection){
         synchronized (data){
-            int size = data.size();
-            data.clear();
-            data.addAll(collection);
-            notifyDataSetChanged();
+            removeData();
+            addData(collection);
         }
     }
     public void addData(@NonNull Collection<T> collection){
@@ -100,10 +98,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
 
     public void removeData() {
         synchronized (data) {
-            int size = data.size();
             data.clear();
             scrollListener.reset();
-            notifyItemRangeRemoved(0,size);
+            notifyDataSetChanged();
+            //notifyItemRangeRemoved(0,size);
         }
     }
 
