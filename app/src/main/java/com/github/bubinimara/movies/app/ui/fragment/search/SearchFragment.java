@@ -128,7 +128,7 @@ public class SearchFragment extends BaseFragment implements SearchView{
     }
 
     public void onLoadMore(int page) {
-        onViewStateChanged();
+        presenter.onViewLoadPage(page);
     }
 
     @Override
@@ -155,20 +155,25 @@ public class SearchFragment extends BaseFragment implements SearchView{
     }
 
     @Override
-    public void showDetailsView(MovieModel movieModel) {
-        DetailsActivity.launchActivity(getActivity(),movieModel.getId());
+    public void showProgress() {
+
     }
 
-    public void onViewStateChanged() {
-        presenter.onViewStateChange();
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showDetailsView(MovieModel movieModel) {
+        DetailsActivity.launchActivity(getActivity(),movieModel.getId());
     }
 
     class MyTextWatcher extends SimpleTextWatcher {
         @Override
         public void afterTextChanged(Editable s) {
-            onViewStateChanged();
+            presenter.onViewSearchTermChange(s.toString());
         }
-
     }
 
 }

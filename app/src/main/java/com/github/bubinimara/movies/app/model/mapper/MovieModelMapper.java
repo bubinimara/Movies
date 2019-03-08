@@ -3,6 +3,7 @@ package com.github.bubinimara.movies.app.model.mapper;
 import com.github.bubinimara.movies.domain.Configuration;
 import com.github.bubinimara.movies.domain.Movie;
 import com.github.bubinimara.movies.app.model.MovieModel;
+import com.github.bubinimara.movies.domain.PageMovie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,19 @@ import java.util.List;
  */
 
 public class MovieModelMapper {
+
+    public static List<MovieModel> transform(PageMovie pageMovie, Configuration configuration) {
+        List<Movie> movieEntities = pageMovie.getMovies();
+        List<MovieModel> movies = new ArrayList<>(movieEntities.size());
+        for (int i = 0;i<movieEntities.size();i++) {
+            Movie e = movieEntities.get(i);
+            MovieModel movieModel = transform(e, configuration);
+            movieModel.setTitle(movieModel.getTitle() + " "+pageMovie.getPage());
+            movies.add(movieModel);
+
+        }
+        return movies;
+    }
 
     public static List<MovieModel> transform(List<Movie> movieEntities, Configuration configuration) {
         List<MovieModel> movies = new ArrayList<>(movieEntities.size());

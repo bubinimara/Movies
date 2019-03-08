@@ -58,7 +58,7 @@ public class SearchFragmentTest {
     }
 
     @Test
-    public void search_text_should_came_from_edit_text() {
+    public void getText() {
         String myText = "my custom text";
         fragment.editTextSearch.setText(myText);
         assertEquals(myText,fragment.editTextSearch.getText().toString());

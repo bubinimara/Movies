@@ -98,13 +98,15 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
 
     public void removeData() {
         synchronized (data) {
-            data.clear();
-            scrollListener.reset();
-            notifyDataSetChanged();
-            //notifyItemRangeRemoved(0,size);
+            int size = data.size();
+            if (size>0) {
+                data.clear();
+                scrollListener.reset();
+                notifyDataSetChanged();
+                //notifyItemRangeRemoved(0,size);
+            }
         }
     }
-
 
 
     public int getCurrentPage() {
