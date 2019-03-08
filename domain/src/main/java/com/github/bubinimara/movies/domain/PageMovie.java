@@ -14,7 +14,7 @@ public class PageMovie {
 
     public PageMovie() {
         movies = new ArrayList<>();
-        page = 0;
+        page = FIRST_PAGE_NUMBER;
 
     }
 

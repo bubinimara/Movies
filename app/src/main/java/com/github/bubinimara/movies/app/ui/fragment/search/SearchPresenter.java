@@ -61,9 +61,7 @@ public class SearchPresenter extends BasePresenter<SearchView> {
                 statePublishSubject
                 .debounce(300, TimeUnit.MILLISECONDS) // reduce frequency
                 .distinctUntilChanged() // ignore same request
-                //.buffer(2,1) -> to compare previous elements
                 .subscribe(state -> {
-                    view.showProgress();
                     useCaseDisposable.clear();
                     useCaseDisposable.add(onStateChange(state));
                 })
@@ -77,9 +75,11 @@ public class SearchPresenter extends BasePresenter<SearchView> {
                 searchForMovies.toObservable(new SearchForMovies.Params(state.search,state.page)),
                 (configuration,pageMovies)-> new Object[]{configuration,pageMovies})
                 .subscribe((n)->{
-                    view.hideProgress();
                     Configuration configuration = (Configuration) n[0];
                     PageMovie pageMovies = (PageMovie) n[1];
+
+                    view.hideProgress();
+                    view.hideError();
                     if(pageMovies.isFirstPage()){
                         view.showEmptyMovies();
                     }
@@ -98,9 +98,11 @@ public class SearchPresenter extends BasePresenter<SearchView> {
 
 
     public void onViewLoadPage(int page){
+        view.showProgress();
         statePublishSubject.onNext(new State(view.getSearchTerm(), page));
     }
     public void onViewSearchTermChange(String term){
+        view.showProgress();
         statePublishSubject.onNext(new State(term, 1));
     }
 

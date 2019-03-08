@@ -46,6 +46,9 @@ public class SearchFragment extends BaseFragment implements SearchView{
     @BindView(R.id.errorView)
     View errorView;
 
+    @BindView(R.id.progressBar)
+    View progressBar;
+
     @Inject
     SearchPresenter presenter;
 
@@ -156,12 +159,12 @@ public class SearchFragment extends BaseFragment implements SearchView{
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
