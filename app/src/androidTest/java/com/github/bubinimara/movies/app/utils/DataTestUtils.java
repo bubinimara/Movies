@@ -6,6 +6,8 @@ import com.github.bubinimara.movies.domain.PageMovie;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.POST;
+
 /**
  * Created by davide.
  */
@@ -34,6 +36,13 @@ public class DataTestUtils {
 
     }
 
+    public static int getPageSize() {
+        return PAGE_LIST_SIZE;
+    }
+
+    public static String getTitleOfElementAtPosition(int position){
+        return PREFIX_TITLE+ position;
+    }
     private static Movie createMovieFromSuffix(int suffix) {
         Movie movie = new Movie();
         movie.setId(PREFIX_ID+suffix);

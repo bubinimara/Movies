@@ -8,12 +8,13 @@ import java.util.List;
  */
 
 public class PageMovie {
+    private static final int FIRST_PAGE_NUMBER = 1;
     private int page;
     private List<Movie> movies;
 
     public PageMovie() {
         movies = new ArrayList<>();
-        page = 0;
+        page = FIRST_PAGE_NUMBER;
 
     }
 
@@ -44,5 +45,9 @@ public class PageMovie {
         return super.equals(o);
         PageMovie pageMovie = (PageMovie) o;
         return pageMovie.getMovies().equals(getMovies());
+    }
+
+    public boolean isFirstPage() {
+        return page == FIRST_PAGE_NUMBER;
     }
 }

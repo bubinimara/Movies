@@ -1,12 +1,12 @@
 package com.github.bubinimara.movies.app.ui.fragment.home;
 
-import com.github.bubinimara.movies.domain.PageMovie;
-import com.github.bubinimara.movies.domain.cases.GetConfiguration;
-import com.github.bubinimara.movies.domain.cases.GetMostPopularMovie;
 import com.github.bubinimara.movies.app.model.MovieModel;
 import com.github.bubinimara.movies.app.model.mapper.MovieModelMapper;
 import com.github.bubinimara.movies.app.rx.SimpleDisposableObserver;
 import com.github.bubinimara.movies.app.ui.BasePresenter;
+import com.github.bubinimara.movies.domain.PageMovie;
+import com.github.bubinimara.movies.domain.cases.GetConfiguration;
+import com.github.bubinimara.movies.domain.cases.GetMostPopularMovie;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     private final PublishSubject<Integer> statePublishSubject;
     private final CompositeDisposable compositeDisposable;
+    private Disposable disposable;
 
     @Inject
     public HomePresenter() {
@@ -44,10 +45,18 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     private void initialize() {
-        compositeDisposable.add(buildDisposableForPageChange());
-        if(!view.isRestored()){
-            onLoadMore(0);
+        registerDisposable();
+        if(!view.isRestored() || view.isLoading()){
+            onLoadMore();
         }
+    }
+
+    private void registerDisposable(){
+        if(disposable!=null){
+            compositeDisposable.remove(disposable);
+        }
+        disposable = buildDisposableForPageChange();
+        compositeDisposable.add(disposable);
     }
 
     @Override
@@ -76,11 +85,15 @@ public class HomePresenter extends BasePresenter<HomeView> {
                         getMostPopularMovies.toObservable(new GetMostPopularMovie.Params(page))
                         .map(PageMovie::getMovies),
                         (configuration, movie) ->
-                                MovieModelMapper.transformConf(movie, configuration));
+                                MovieModelMapper.transform(movie, configuration));
     }
 
 
-    public void onLoadMore(int currentPage){
+    public void onLoadMore(){
+        int currentPage = view.getCurrentPage();
+        if(currentPage==0){
+            view.showProgress();
+        }
         statePublishSubject.onNext(currentPage+1);
     }
 
@@ -88,18 +101,24 @@ public class HomePresenter extends BasePresenter<HomeView> {
         view.showDetailsView(movieModel);
     }
 
+    public void onRetry() {
+        view.hideError();
+        registerDisposable();
+        onLoadMore();
+    }
 
     class ListMovieDisposable extends SimpleDisposableObserver<List<MovieModel>>{
 
         @Override
         public void onNext(List<MovieModel> movies) {
+            view.hideProgress();
             view.showMovies(movies);
         }
 
         @Override
         public void onError(Throwable e) {
+            view.hideProgress();
             view.showError(HomeView.Errors.UNKNOWN);
-            e.printStackTrace();
         }
 
     }

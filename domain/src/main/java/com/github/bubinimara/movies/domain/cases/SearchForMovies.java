@@ -6,6 +6,8 @@ import com.github.bubinimara.movies.domain.repository.MovieRepository;
 import com.github.bubinimara.movies.domain.scheduler.BgScheduler;
 import com.github.bubinimara.movies.domain.scheduler.UiScheduler;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -30,7 +32,7 @@ public class SearchForMovies  extends UseCase<PageMovie,SearchForMovies.Params>{
 
     @Override
     Observable<PageMovie> buildObservable(Params params) {
-
+        if(params.search.isEmpty())return Observable.just(new PageMovie());
         return languageRepository.getLanguageInUse()
                 .flatMap(language -> movieRepository.searchMovie(language.getIsoCode(),params.search,params.page));
     }

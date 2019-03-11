@@ -1,11 +1,13 @@
-package com.github.bubinimara.movies.app.ui.fragment.home;
+package com.github.bubinimara.movies.app.ui.fragment.search;
 
 import android.view.View;
 
 import com.github.bubinimara.movies.BuildConfig;
 import com.github.bubinimara.movies.app.FakeMovieApp;
 import com.github.bubinimara.movies.app.model.MovieModel;
+import com.github.bubinimara.movies.app.robo.ActivityAssertions;
 import com.github.bubinimara.movies.app.ui.activity.details.DetailsActivity;
+import com.github.bubinimara.movies.app.ui.fragment.home.HomeView;
 import com.github.bubinimara.movies.app.utils.MovieModelTestUtil;
 
 import org.junit.Before;
@@ -16,33 +18,38 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import java.util.Collection;
+import java.util.List;
 
-import static com.github.bubinimara.movies.app.robo.ActivityAssertions.assertActivityStarted;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.*;
+import static org.robolectric.Shadows.shadowOf;
 
 /**
  * Created by davide.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,application = FakeMovieApp.class)
-public class HomeFragmentTest {
+public class SearchFragmentTest {
 
-    private HomeFragment fragment;
+    private SearchFragment fragment;
 
     @Before
     public void setUp() {
-        fragment = new HomeFragment();
+        fragment = new SearchFragment();
         SupportFragmentTestUtil.startVisibleFragment(fragment);
     }
 
     @Test
+    public void should_show_search_input_at_startup() {
+        assertEquals(fragment.editTextSearch.getVisibility(), View.VISIBLE);
+        assertTrue(fragment.editTextSearch.getText().toString().isEmpty());
+    }
+
+    @Test
     public void showMovies() {
-        Collection<MovieModel> movies = MovieModelTestUtil.createMovies(33);
+        List<MovieModel> movies = MovieModelTestUtil.createMovies(33);
         fragment.showMovies(movies);
 
         assertThat(fragment.recyclerView.getAdapter().getItemCount(),is(movies.size()+1));
@@ -51,15 +58,39 @@ public class HomeFragmentTest {
     }
 
     @Test
+    public void getText() {
+        String myText = "my custom text";
+        fragment.editTextSearch.setText(myText);
+        assertEquals(myText,fragment.editTextSearch.getText().toString());
+    }
+
+
+    public void should_trigger_new_search_when_text_change() {
+        fragment.editTextSearch.setText("my custom text");
+        fragment.onViewStateChanged();
+
+    }
+
+    @Test
     public void showError() {
         fragment.showError(HomeView.Errors.UNKNOWN);
         assertThat(fragment.errorView.getVisibility(),is(View.VISIBLE));
+        assertThat(fragment.recyclerView.getVisibility(),is(View.GONE));
+    }
+
+    @Test
+    public void hideError() {
+        fragment.hideError();
+        assertThat(fragment.errorView.getVisibility(),is(View.GONE));
+        assertThat(fragment.recyclerView.getVisibility(),is(View.VISIBLE));
     }
 
     @Test
     public void showDetailsView() {
         MovieModel movie = Mockito.mock(MovieModel.class);
         fragment.showDetailsView(movie);
-        assertActivityStarted(fragment, DetailsActivity.class);
+        ActivityAssertions.assertActivityStarted(fragment, DetailsActivity.class);
     }
+
+
 }

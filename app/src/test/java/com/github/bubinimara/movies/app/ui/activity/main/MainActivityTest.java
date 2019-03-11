@@ -88,4 +88,22 @@ public class MainActivityTest {
         assertThat(mainActivity.viewPager.getCurrentItem(),is(MainActivity.Screens.PROFILE));
 
     }
+
+    @Test
+    public void should_set_correct_screen_title() {
+        ActivityController controller =
+                Robolectric.buildActivity(MainActivity.class).create().start().resume();
+        MainActivity mainActivity = (MainActivity) controller.get();
+        assertNotNull(mainActivity);
+
+        mainActivity.findViewById(R.id.navigation_search).performClick();
+        assertThat(mainActivity.getTitle().toString(),is(mainActivity.getResources().getString(R.string.toolbar_title_search)));
+
+        mainActivity.findViewById(R.id.navigation_profile).performClick();
+        assertThat(mainActivity.getTitle().toString(),is(mainActivity.getResources().getString(R.string.toolbar_title_profile)));
+
+        mainActivity.findViewById(R.id.navigation_home).performClick();
+        assertThat(mainActivity.getTitle().toString(),is(mainActivity.getResources().getString(R.string.toolbar_title_home)));
+
+    }
 }

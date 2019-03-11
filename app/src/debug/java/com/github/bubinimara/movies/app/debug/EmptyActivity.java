@@ -1,5 +1,6 @@
 package com.github.bubinimara.movies.app.debug;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,5 +19,11 @@ public class EmptyActivity extends AppCompatActivity {
     public void addContent(View view){
         ViewGroup viewGroup = findViewById(R.id.container);
         viewGroup.addView(view);
+    }
+
+    public void replaceFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
     }
 }

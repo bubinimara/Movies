@@ -13,7 +13,7 @@ android {
         targetSdkVersion versions.compileSdk
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.github.bubinimara.movies.app.MockAppTestRunner"
+        testInstrumentationRunner "com.github.bubinimara.movies.app.AppTestRunner"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -70,6 +70,11 @@ dependencies {
     androidTestImplementation(deps.support.test.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    androidTestImplementation(deps.support.test.espressoContrib) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    implementation deps.loaderviewlibrary
 
     /* view binding */
     implementation deps.butterknife

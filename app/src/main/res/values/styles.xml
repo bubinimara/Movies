@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="BottomNavigation">
+        <item name="android:background">@color/bottom_navigation_background</item>
+        <!--<item name="itemBackground">@drawable/bottom_navigation_item_background</item>-->
+        <item name="itemIconTint">@drawable/bottom_navigation_item_colors</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_item_colors</item>
+    </style>
 </resources>
