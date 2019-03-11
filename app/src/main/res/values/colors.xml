@@ -5,4 +5,5 @@
     <color name="colorAccent">#01d277</color>
     <color name="toolbar_background">#59000000</color>
     <color name="bottom_navigation_background">#59000000</color>
+    <color name="main_background">#000000</color>
 </resources>

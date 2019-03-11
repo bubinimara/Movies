@@ -4,10 +4,38 @@
     android:layout_height="match_parent"
     tools:context=".app.ui.fragment.profile.ProfileFragment">
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_login"/>
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <EditText
+            android:background="@drawable/bg_edittext"
+            android:padding="18dp"
+            android:layout_margin="8dp"
+            android:hint="@string/hint_username"
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:padding="18dp"
+            android:background="@drawable/bg_edittext"
+            android:layout_margin="8dp"
+            android:id="@+id/et_password"
+            android:hint="@string/hint_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:padding="8dp"
+            android:layout_margin="8dp"
+
+            android:id="@+id/btn_login"
+            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/btn_login"/>
+    </LinearLayout>
 </RelativeLayout>
