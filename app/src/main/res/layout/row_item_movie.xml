@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:backgroundTint="@color/colorPrimaryDark"
     android:id="@+id/movie_root">
 
     <LinearLayout
@@ -14,6 +15,7 @@
             android:padding="8dp"
             android:gravity="center"
             style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/white"
             android:id="@+id/movie_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,6 +29,7 @@
 
         <com.elyeproj.loaderviewlibrary.LoaderTextView
             android:id="@+id/movie_overview"
+            android:textColor="@android:color/white"
             android:padding="8dp"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
@@ -35,6 +38,7 @@
             android:maxLines="3"/>
 
         <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:textColor="@android:color/white"
             android:padding="8dp"
             android:id="@+id/movie_year"
             android:gravity="end"
