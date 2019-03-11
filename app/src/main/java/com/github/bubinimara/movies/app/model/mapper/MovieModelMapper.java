@@ -20,7 +20,7 @@ public class MovieModelMapper {
         for (int i = 0;i<movieEntities.size();i++) {
             Movie e = movieEntities.get(i);
             MovieModel movieModel = transform(e, configuration);
-            movieModel.setTitle(movieModel.getTitle() + " "+pageMovie.getPage());
+            //movieModel.setTitle(movieModel.getTitle() + " "+pageMovie.getPage());
             movies.add(movieModel);
 
         }
@@ -62,7 +62,8 @@ public class MovieModelMapper {
             return null;
         }
 
-        return images.getBase_url()+images.getPoster_sizes().get(0)+movie.getPosterPath();
+        String img_size = images.getPoster_sizes().get(images.getPoster_sizes().size() - 1);
+        return images.getBase_url()+img_size+movie.getPosterPath();
 
     }
 
