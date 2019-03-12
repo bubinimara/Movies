@@ -65,10 +65,22 @@ public class SearchFragmentTest {
     }
 
 
-    public void should_trigger_new_search_when_text_change() {
-        fragment.editTextSearch.setText("my custom text");
-        fragment.onViewStateChanged();
+    @Test
+    public void should_trigger_new_search_on_text_change() {
+        String searchTerm = "searchTerm";
+        fragment.presenter = Mockito.mock(SearchPresenter.class);
+        fragment.editTextSearch.setText(searchTerm);
 
+        Mockito.verify(fragment.presenter).onViewSearchTermChange(searchTerm);
+    }
+
+    @Test
+    public void should_trigger_new_search_on_page_load() {
+        fragment.presenter = Mockito.mock(SearchPresenter.class);
+        fragment.editTextSearch.setText("my custom text");
+        fragment.onLoadMore(1);
+
+        Mockito.verify(fragment.presenter).onViewLoadPage(1);
     }
 
     @Test

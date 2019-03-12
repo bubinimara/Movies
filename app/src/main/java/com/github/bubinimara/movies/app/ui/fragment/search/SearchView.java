@@ -10,12 +10,7 @@ import java.util.List;
  */
 
 public interface SearchView extends IView {
-
-
-
-
     @interface Errors {
-
         int UNKNOWN = 0;
     }
 

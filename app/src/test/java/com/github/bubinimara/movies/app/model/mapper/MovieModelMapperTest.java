@@ -86,9 +86,19 @@ public class MovieModelMapperTest {
         assertFalse(movieModel.haveImageUrl());
     }
 
+    //Todo: at the moment get the last image on the array
     @Test
     public void should_get_best_image_url() {
-        assertFalse("not implemented yet",true);
+        Configuration.Image image = Mockito.mock(Configuration.Image.class);
+        Mockito.when(configuration.getImages()).thenReturn(image);
+        Mockito.when(image.getBase_url()).thenReturn("base.url/");
+        Mockito.when(image.getPoster_sizes()).thenReturn(Arrays.asList("0","1","2","3"));
+        Mockito.when(movie.getPosterPath()).thenReturn("/image.png");
+        MovieModel movieModel = MovieModelMapper.transform(movie, configuration);
+        assertTrue(movieModel.getYear().isEmpty());
+
+        assertTrue(movieModel.haveImageUrl());
+        assertEquals("base.url/3/image.png",movieModel.getImageUrl());
     }
 
     @Test
