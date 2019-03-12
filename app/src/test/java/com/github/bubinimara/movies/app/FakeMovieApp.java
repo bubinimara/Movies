@@ -1,9 +1,8 @@
 package com.github.bubinimara.movies.app;
 
-import com.github.bubinimara.movies.app.di.components.ActivityComponent;
-import com.github.bubinimara.movies.app.di.components.ApplicationComponent;
-import com.github.bubinimara.movies.app.di.components.DaggerActivityComponent;
-import com.github.bubinimara.movies.app.di.components.DaggerApplicationComponent;
+import android.support.annotation.NonNull;
+
+import com.github.bubinimara.movies.app.di.modules.ApplicationDataModule;
 import com.github.bubinimara.movies.app.di.modules.ApplicationModule;
 
 import dagger.Module;
@@ -13,18 +12,10 @@ import dagger.Module;
  */
 public class FakeMovieApp extends MovieApp {
 
-    private ApplicationComponent applicationComponent ;
-    private ActivityComponent activityComponent;
-
-
+    @NonNull
     @Override
-    protected void initDI() {
-        applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new MockApplicationModule(this))
-                .build();
-        activityComponent = DaggerActivityComponent.builder()
-                .applicationComponent(applicationComponent)
-                .build();
+    protected ApplicationDataModule buildApplicationDataModule() {
+        return new MockApplicationDataModule();
     }
 
     @Override
@@ -32,22 +23,7 @@ public class FakeMovieApp extends MovieApp {
 
     }
 
-    @Override
-    public ApplicationComponent getApplicationComponent() {
-        return applicationComponent;
+    private static class MockApplicationDataModule extends ApplicationDataModule {
+
     }
-
-    @Override
-    public ActivityComponent getActivityComponent() {
-        return activityComponent;
-    }
-
-
-    @Module
-    public static class MockApplicationModule extends ApplicationModule{
-        public MockApplicationModule(MovieApp application) {
-            super(application);
-        }
-    }
-
 }

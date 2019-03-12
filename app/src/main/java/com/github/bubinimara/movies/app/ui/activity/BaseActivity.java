@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.github.bubinimara.movies.app.MovieApp;
 import com.github.bubinimara.movies.app.di.components.ActivityComponent;
-import com.github.bubinimara.movies.app.di.components.ApplicationComponent;
 import com.github.bubinimara.movies.app.ui.IView;
 
 /**
@@ -14,8 +13,8 @@ import com.github.bubinimara.movies.app.ui.IView;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements IView {
+
     private boolean isRestored;
-    private ActivityComponent activityComponent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,22 +22,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
         isRestored = savedInstanceState!=null;
     }
 
-    protected ApplicationComponent getApplicationComponent() {
-        return ((MovieApp) getApplication()).getApplicationComponent();
-    }
-
     protected ActivityComponent getActivityComponent(){
         // TODO: Find differences between dagger declaration of component
-      /*  if(activityComponent == null){
-            activityComponent = DaggerActivityComponent.builder()
-                    .applicationComponent(getApplicationComponent())
-                    .activityModule(new ActivityModule())
-                    .build();
-        }
-        return activityComponent;
-      */
       return ((MovieApp) getApplication()).getActivityComponent();
     }
+
     @Override
     public boolean isRestored() {
         return isRestored;

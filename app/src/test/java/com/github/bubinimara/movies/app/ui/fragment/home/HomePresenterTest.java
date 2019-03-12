@@ -12,17 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.nio.file.Path;
-
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.PublishSubject;
-
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by davide.
@@ -93,21 +84,52 @@ public class HomePresenterTest {
 
     @Test
     public void should_show_list_onLoadMore() {
+        Mockito.when(view.getCurrentPage()).thenReturn(1);
         presenter.viewShowed();
         publishSubject.onNext(pageMovie);
         Mockito.clearInvocations(view);
 
-        presenter.onLoadMore(1);
+        Mockito.when(view.getCurrentPage()).thenReturn(2);
+        presenter.onLoadMore();
         publishSubject.onNext(pageMovie);
-        Mockito.verify(view).showMovies(Mockito.anyCollection());
+        Mockito.verify(view).showMovies(Mockito.any());
+
+    }
+
+    @Test
+    public void should_not_load_the_same_page_more_times() {
+        Mockito.when(view.getCurrentPage()).thenReturn(1);
+        presenter.viewShowed();
+        publishSubject.onNext(pageMovie);
+        Mockito.clearInvocations(view);
+
+        presenter.onLoadMore();
+        publishSubject.onNext(pageMovie);
+        Mockito.verify(view).getCurrentPage();
+        Mockito.verify(view, Mockito.never()).showMovies(Mockito.any());
+    }
+
+    @Test
+    public void should_show_error_View_on_error() {
+        Mockito.when(view.getCurrentPage()).thenReturn(1);
+        presenter.viewShowed();
+        publishSubject.onNext(pageMovie);
+        Mockito.clearInvocations(view);
+
+        Mockito.when(view.getCurrentPage()).thenReturn(2);
+        presenter.onLoadMore();
+        publishSubject.onError(new Throwable());
+        Mockito.verify(view).showError(Mockito.anyInt());
     }
 
     @Test
     public void should_do_nothing_if_view_is_hidden() {
+        Mockito.when(view.getCurrentPage()).thenReturn(0);
 
         presenter.viewHidden();
         publishSubject.onNext(pageMovie);
-        presenter.onLoadMore(0);
+        //TODO: annotate ui thread in methods
+        //presenter.onLoadMore(); // <- this came from UI thread ... annotate it
 
         Mockito.verifyNoMoreInteractions(view);
     }

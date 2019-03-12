@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface SearchView extends IView {
     @interface Errors {
-
         int UNKNOWN = 0;
     }
 
@@ -19,8 +18,12 @@ public interface SearchView extends IView {
     int getPageNumber();
 
     void showEmptyMovies();
-
     void showMovies(List<MovieModel> movieModels);
+    void showDetailsView(MovieModel movieModel);
+
 
     void showError(@Errors int error);
+    void hideError();
+    void showProgress();
+    void hideProgress();
 }

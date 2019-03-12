@@ -36,8 +36,12 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
     }
 
     @Override
-    public void onBindViewHolder(Holder<T> holder, int position) {
-        holder.set(data.get(position));
+    public void onBindViewHolder(@NonNull Holder<T> holder, int position) {
+        holder.set(getItem(position));
+    }
+
+    public T getItem(int position) {
+        return data.get(position);
     }
 
     protected View inflateViewFromResource(ViewGroup parent,@LayoutRes int resId){
@@ -45,8 +49,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
         return layoutInflater.inflate(resId,parent,false);
     }
 
+    @NonNull
     @Override
-    public final Holder<T> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final Holder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Holder<T> holder = createHolder(parent,viewType);
         holder.setOnItemClicked(onItemClicked);
         return holder;
@@ -55,21 +60,21 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
     abstract Holder<T> createHolder(ViewGroup parent, int viewType);
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.removeOnScrollListener(scrollListener);
         super.onDetachedFromRecyclerView(recyclerView);
     }
 
     @Override
-    public void onBindViewHolder(Holder<T> holder, int position, List<Object> payloads) {
+    public void onBindViewHolder(@NonNull Holder<T> holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
-        holder.set(data.get(position));
+        holder.set(getItem(position));
     }
 
     @Override
@@ -79,10 +84,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
 
     public void setData(Collection<T> collection){
         synchronized (data){
-            int size = data.size();
-            data.clear();
-            data.addAll(collection);
-            notifyDataSetChanged();
+            removeData();
+            addData(collection);
         }
     }
     public void addData(@NonNull Collection<T> collection){
@@ -96,12 +99,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ho
     public void removeData() {
         synchronized (data) {
             int size = data.size();
-            data.clear();
-            scrollListener.reset();
-            notifyItemRangeRemoved(0,size);
+            if (size>0) {
+                data.clear();
+                scrollListener.reset();
+                notifyDataSetChanged();
+                //notifyItemRangeRemoved(0,size);
+            }
         }
     }
-
 
 
     public int getCurrentPage() {

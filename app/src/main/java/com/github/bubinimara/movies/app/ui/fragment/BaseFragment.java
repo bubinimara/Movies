@@ -33,10 +33,6 @@ public class BaseFragment extends Fragment implements IView {
     }
 
     public ActivityComponent getActivityComponent() {
-/*
-        BaseActivity activity = (BaseActivity) getActivity();
-        return activity.getActivityComponent();
-*/
         MovieApp app = (MovieApp) getActivity().getApplication();
         return app.getActivityComponent();
     }
