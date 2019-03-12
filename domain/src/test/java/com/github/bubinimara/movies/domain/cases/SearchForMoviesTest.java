@@ -35,7 +35,7 @@ public class SearchForMoviesTest {
     private PageMovie pageMovie;
     @Mock
     private Throwable throwable;
-    private SearchForMovies.Params params = new SearchForMovies.Params("",1);
+    private SearchForMovies.Params params = new SearchForMovies.Params("search",1);
 
     @Before
     public void setUp() throws Exception {
@@ -64,7 +64,7 @@ public class SearchForMoviesTest {
 
 
     @Test
-    public void should_not_throw_error_when_empty() throws Exception {
+    public void should_not_throw_error_when_empty() {
         mockRepositoryResponse(Observable.empty());
 
         TestObserver<PageMovie> testObserver = TestObserver.create();
@@ -76,7 +76,7 @@ public class SearchForMoviesTest {
     }
 
     @Test
-    public void should_propagate_error() throws Exception {
+    public void should_propagate_error() {
         mockRepositoryResponse(Observable.error(throwable));
         TestObserver<PageMovie> testObserver = TestObserver.create();
         searchForMovies.buildObservable(params).subscribe(testObserver);
@@ -85,7 +85,7 @@ public class SearchForMoviesTest {
     }
 
     @Test
-    public void should_dispose() throws Exception {
+    public void should_dispose() {
         mockRepositoryResponse(Observable.empty());
 
         DisposableObserver<PageMovie> disposable = new DisposableObserverTest<>();
@@ -93,6 +93,18 @@ public class SearchForMoviesTest {
         searchForMovies.execute(disposable,params);
         searchForMovies.dispose();
         assertTrue(disposable.isDisposed());
+    }
+
+    @Test
+    public void should_not_call_repository_on_empty_string() {
+        mockRepositoryResponse(Observable.empty());
+        TestObserver<PageMovie> testObserver = TestObserver.create();
+        String emptyString = "";
+        Mockito.clearInvocations(repository);
+        searchForMovies
+                .buildObservable(new SearchForMovies.Params(emptyString,1))
+                .subscribe(testObserver);
+        Mockito.verify(repository,Mockito.never()).searchMovie(Mockito.anyString(),Mockito.anyString(), Mockito.anyInt());
     }
 
     private void mockRepositoryResponse(Observable<PageMovie> just) {

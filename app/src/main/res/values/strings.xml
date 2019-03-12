@@ -106,5 +106,6 @@
     <string name="toolbar_title_profile">Your Profile</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
+    <string name="error_retry_movies">Unknow Error at the moment\n tap the screen for retry</string>
 
 </resources>
