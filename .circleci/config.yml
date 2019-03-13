@@ -35,7 +35,7 @@ jobs:
           name: "Setup custom environment variables"
           command:
                  echo '# Local properties file' > private.properties ;
-                 echo $TMDB_API_KEY >> private.properties
+                 echo 'TMDB_API_KEY="$TMDB_API_KEY"' >> private.properties
 
       - run: gradle dependencies
 
