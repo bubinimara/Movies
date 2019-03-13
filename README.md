@@ -1,8 +1,7 @@
 # Movies
-An application
+Sample App to show clean architecture approach
+...
 
-## features covered
 
-
-## To execute Spoon Test
-There's a gradle task in app module called androidSpoonTest
+## Testing
+There's a gradle task in app module called androidSpoonTest to execute Spoon Test
