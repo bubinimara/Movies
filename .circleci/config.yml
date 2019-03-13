@@ -31,6 +31,12 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run:
+          name: "Setup custom environment variables"
+          command:
+                 echo '# Local properties file' > private.properties ;
+                 echo $TMDB_API_KEY >> private.properties
+
       - run: gradle dependencies
 
       - save_cache:
