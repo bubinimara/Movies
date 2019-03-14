@@ -23,7 +23,7 @@ jobs:
         command:
           echo '# Local properties file' > private.properties ;
           echo 'TMDB_API_KEY="$TMDB_API_KEY"' >> private.properties;
-          echo 'sdk.dir="$ANDROID_HOME'" >> local.properties
+          echo 'sdk.dir="$ANDROID_HOME"' >> local.properties
 
     - run:
         name: Download Dependencies
