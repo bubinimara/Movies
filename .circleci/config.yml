@@ -22,8 +22,12 @@ jobs:
         name: "Setup custom environment variables"
         command:
           echo '# Local properties file' > private.properties ;
-          echo 'TMDB_API_KEY="$TMDB_API_KEY"' >> private.properties;
-          echo 'sdk.dir="$ANDROID_HOME"' >> local.properties
+          echo 'TMDB_API_KEY="'$TMDB_API_KEY'"' >> private.properties;
+          echo 'sdk.dir="'$ANDROID_HOME'"' >> local.properties
+    - run:
+        name: "Check custom environment variables"
+          cat private.properties;
+          cat local.properties
 
     - run:
         name: Download Dependencies
