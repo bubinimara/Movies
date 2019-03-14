@@ -44,6 +44,16 @@ android {
     }
     productFlavors {
     }
+
+    sourceSets {
+        String sharedTestDir = 'src/debug/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
 }
 
 dependencies {
