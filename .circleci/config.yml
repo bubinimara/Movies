@@ -28,7 +28,7 @@ jobs:
         name: "Check custom environment variables"
         command:
           cat private.properties;
-          cat local.properties
+          # cat local.properties
 
     - run:
         name: Download Dependencies
