@@ -26,6 +26,7 @@ jobs:
           echo 'sdk.dir="'$ANDROID_HOME'"' >> local.properties
     - run:
         name: "Check custom environment variables"
+        command:
           cat private.properties;
           cat local.properties
 
