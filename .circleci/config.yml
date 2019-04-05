@@ -51,9 +51,6 @@ jobs:
           ./gradlew :app:assembleDebug
           ./gradlew :app:assembleDebugAndroidTest
     - run:
-        name: Store Google Service Account
-        command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-    - run:
         name: Authorize gcloud and set config defaults
         command: |
                    echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
@@ -66,6 +63,5 @@ jobs:
     - run:
         name: Install gsutil dependency and copy test results data
         command: |
-          sudo pip install -U crcmod
-          sudo gsutil -m cp -r -U `sudo gsutil ls ${GS_TESTLAB_URL} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+          gsutil -m cp -r -U `sudo gsutil ls ${GS_TESTLAB_URL} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
 
