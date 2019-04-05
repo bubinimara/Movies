@@ -62,10 +62,7 @@ jobs:
     - run:
         name: Test with Firebase Test Lab
         command: >
-          gcloud firebase test android run \
-           --app app/build/outputs/apk/debug/app-debug.apk \
-           --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-           --device model=Nexus6P,version=27 --device model=taimen,version=27
+          gcloud firebase test android run --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
     - run:
         name: Install gsutil dependency and copy test results data
         command: |
