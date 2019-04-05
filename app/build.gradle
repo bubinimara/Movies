@@ -44,6 +44,16 @@ android {
     }
     productFlavors {
     }
+
+    sourceSets {
+        String sharedTestDir = 'src/debug/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
 }
 
 dependencies {
@@ -120,7 +130,7 @@ android {
             def apk = variant.outputs[0].outputFile
             testVariants.all { testVariant ->
                 Properties properties = new Properties()
-                properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                properties.load(project.rootProject.file('private.properties').newDataInputStream())
                 def sdk = properties.getProperty('sdk.dir')
 
                 def testApk = testVariant.outputs[0].outputFile
