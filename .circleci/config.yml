@@ -25,26 +25,21 @@ jobs:
           echo 'TMDB_API_KEY="'$TMDB_API_KEY'"' >> private.properties;
           echo 'sdk.dir="'$ANDROID_HOME'"' >> private.properties
     - run:
-        name: "Check custom environment variables"
-        command:
-          cat private.properties;
-          # cat local.properties
-#    - run:
-#        name: Download Dependencies
-#        command: ./gradlew androidDependencies
-#    - save_cache:
-#        paths:
-#        - ~/.gradle
-#        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#    - run:
-#        name: Run Tests
-#        command: ./gradlew lint test
-#    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-#        path: app/build/reports
-#        destination: reports
-#    - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-#        path: app/build/test-results
-#    # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+        name: Download Dependencies
+        command: ./gradlew androidDependencies
+    - save_cache:
+        paths:
+        - ~/.gradle
+        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+    - run:
+        name: Run Tests
+        command: ./gradlew lint test
+    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+        path: app/build/reports
+        destination: reports
+    - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+        path: app/build/test-results
+    # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
     - run:
         name: Build debug APK and release APK
         command: |
@@ -60,8 +55,8 @@ jobs:
         name: Test with Firebase Test Lab
         command: >
           gcloud firebase test android run --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-    - run:
-        name: Install gsutil dependency and copy test results data
-        command: |
-          gsutil -m cp -r -U `sudo gsutil ls ${GS_TESTLAB_URL} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+#  - run:
+#        name: Install gsutil dependency and copy test results data
+#        command: |
+#          gsutil -m cp -r -U `gsutil ls ${GS_TESTLAB_URL} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
 
