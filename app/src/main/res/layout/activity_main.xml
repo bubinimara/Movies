@@ -5,17 +5,18 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.ui.activity.main.MainActivity"
-    android:background="@color/main_background">
+    android:background="@color/main_background"
+    tools:context=".app.ui.activity.main.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/toolbar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/colorAccent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:titleTextColor="@color/colorAccent" />
 
     <com.github.bubinimara.movies.app.ui.widget.SwipeableViewPager
         android:id="@+id/viewPager"
