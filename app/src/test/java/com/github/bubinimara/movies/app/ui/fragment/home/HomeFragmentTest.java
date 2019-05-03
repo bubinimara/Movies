@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -42,6 +43,9 @@ public class HomeFragmentTest {
 
     @Test
     public void showMovies() {
+        fragment.showEmptyMovies();
+        assertThat(fragment.recyclerView.getAdapter().getItemCount(),is(0));
+
         Collection<MovieModel> movies = MovieModelTestUtil.createMovies(33);
         fragment.showMovies(movies);
 
